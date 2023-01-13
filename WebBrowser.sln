@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowser.WPF", "WebBrowser.WPF\WebBrowser.WPF.csproj", "{C653324F-BAD5-4778-9D9F-188121D175B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowser", "WebBrowser\WebBrowser.csproj", "{FA610FF2-3B04-479B-8508-E5B4CF8C5472}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowser.Test", "WebBrowser.Test\WebBrowser.Test.csproj", "{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C653324F-BAD5-4778-9D9F-188121D175B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C653324F-BAD5-4778-9D9F-188121D175B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C653324F-BAD5-4778-9D9F-188121D175B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C653324F-BAD5-4778-9D9F-188121D175B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
