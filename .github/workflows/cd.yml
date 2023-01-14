@@ -1,0 +1,49 @@
+name: package
+on:
+  push:
+    tags:
+      -'*'
+  pull_request:
+    branches: [ main ]
+    tags:
+      -'*'
+
+env:
+  DOTNET_VERSION: '6.0.405'
+  WPF_PROJECT_PATH: WebBrowser.WPF\WebBrowser.WPF.csproj
+
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+        targetplatform: [ x86, x64 ]
+
+    
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET Cores
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Decrypt PFX File
+      run:  |
+        echo: "${{ secrets.ENCODED_PFX }}" > cert.pfx.asc
+        certutil -decode cert.pfx.asc cert.pfx
+
+    - name: Add Cert to store
+      run: certutil -user -q -p ${{ secrets.PFX_KEY }} -importpfx cert.pfx NoRoot
+
+    - name: Install dependencies
+      run: dotnet restore
+
+    - name: Publish
+      run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release -f:net6.0-windows /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="${{ secrets.PFX_THUMBPRINT }}"
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        path: .\**\AppPackages\**\*.*
