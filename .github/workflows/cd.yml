@@ -22,7 +22,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+    - uses: actions/checkout@v2
 
     - name: Setup .NET Cores
       uses: actions/setup-dotnet@v3
@@ -47,10 +48,7 @@ jobs:
       run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release --self-contained -p:PublishSingleFile=true
       env:
         RuntimeIdentifier: win-x64
-
-    - name: Checkout code
-      uses: actions/checkout@v2
-
+    
     - name: Create Release
       uses: actions/create-release@v1
       id: create_release
