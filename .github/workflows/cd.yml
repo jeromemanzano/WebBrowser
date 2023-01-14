@@ -7,7 +7,11 @@ on:
     branches: [ main ]
     tags:
       -'*'
-
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  
 env:
   DOTNET_VERSION: '6.0.405'
   WPF_PROJECT_PATH: WebBrowser.WPF/WebBrowser.WPF.csproj
