@@ -17,11 +17,8 @@ jobs:
     # strategy:
     #   matrix:
     #     targetplatform: [ x86, x64 ]
-    permissions:
-      contents: read
-      issues: write
-      pull-requests: write
-      
+    permissions: write-all
+    
     runs-on: windows-latest
 
     steps:
