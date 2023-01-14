@@ -49,17 +49,10 @@ jobs:
       env:
         RuntimeIdentifier: win-x64
 
-    - name: Get previous tag
-      id: previous_tag
-      uses: 'WyriHaximus/github-action-get-previous-tag@v1'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Get next minor version
-      id: minor_version
-      uses: 'WyriHaximus/github-action-next-semvers@v1'
-      env:
-        version: ${{ steps.previous_tag.outputs.tag }}
+    - name: Get commit id
+      uses: 'fufuhu/get-commit-id'
+      with:
+        path: ./
     
     - name: Create Release
       uses: actions/create-release@v1
@@ -67,8 +60,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.minor_version.outputs.patch }}
-        release_name: Release ${{ steps.minor_version.outputs.patch }}
+        tag_name: ${{ steps.get_commit_id.outputs.commit_id }}
+        release_name: Release ${{ steps.get_commit_id.outputs.commit_id }}
 
     - name: Upload
       uses: csexton/release-asset-action@v2
