@@ -48,11 +48,6 @@ jobs:
       run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release --self-contained -p:PublishSingleFile=true
       env:
         RuntimeIdentifier: win-x64
-
-    - name: Get commit id
-      uses: 'fufuhu/get-commit-id'
-      with:
-        path: ./
     
     - name: Create Release
       uses: actions/create-release@v1
@@ -60,8 +55,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.get_commit_id.outputs.commit_id }}
-        release_name: Release ${{ steps.get_commit_id.outputs.commit_id }}
+        tag_name: ${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
 
     - name: Upload
       uses: csexton/release-asset-action@v2
