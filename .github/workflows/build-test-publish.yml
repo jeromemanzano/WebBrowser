@@ -3,6 +3,8 @@ name: build, test and publish
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
   pull_request:
     branches: [ main ]
 
@@ -48,7 +50,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.run_number }}
-        release_name: ${{ ( github.event == 'pull_request' && 'PR-Build' ) || 'Release' }} ${{ github.run_number }}
+        release_name: ${{ ( github.event_name == 'pull_request' && 'PR-Build' ) || 'Release' }} ${{ github.run_number }}
 
     - name: Upload
       uses: csexton/release-asset-action@v2
