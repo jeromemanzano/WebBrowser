@@ -14,9 +14,9 @@ env:
 
 jobs:
   build-and-package:
-    strategy:
-      matrix:
-        targetplatform: [ x86, x64 ]
+    # strategy:
+    #   matrix:
+    #     targetplatform: [ x86, x64 ]
 
     
     runs-on: windows-latest
@@ -29,13 +29,13 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Decrypt PFX File
-      run:  |
-        echo "${{ secrets.ENCODED_PFX }}" > cert.pfx.asc
-        certutil -decode cert.pfx.asc cert.pfx
+    # - name: Decrypt PFX File
+    #   run:  |
+    #     echo "${{ secrets.ENCODED_PFX }}" > cert.pfx.asc
+    #     certutil -decode cert.pfx.asc cert.pfx
 
-    - name: Add Cert to store
-      run: certutil -user -q -p ${{ secrets.PFX_KEY }} -importpfx cert.pfx NoRoot
+    # - name: Add Cert to store
+    #   run: certutil -user -q -p ${{ secrets.PFX_KEY }} -importpfx cert.pfx NoRoot
 
     - name: Install dependencies
       run: dotnet restore
@@ -46,7 +46,7 @@ jobs:
     - name: Publish
       run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release --self-contained -p:PublishSingleFile=true --no-build
       env:
-        RuntimeIdentifier: win-${{ matrix.targetplatform }}
+        RuntimeIdentifier: win-x64
 
     - uses: actions/create-release@v1
       id: create_release
