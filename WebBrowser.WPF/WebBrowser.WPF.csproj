@@ -4,7 +4,7 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>net6.0-windows</TargetFramework>
         <UseWPF>true</UseWPF>
-		<RuntimeIdentifier>win-x64;win-x86</RuntimeIdentifier>
+		<RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
 	</PropertyGroup>
 
     <ItemGroup>
