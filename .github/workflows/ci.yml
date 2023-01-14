@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 env:
-  DOTNET_VERSION: '6.0.13'
+  DOTNET_VERSION: '6.0.405'
 
 jobs:
   build-and-test:
