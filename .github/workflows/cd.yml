@@ -41,7 +41,7 @@ jobs:
       run: dotnet restore
 
     - name: Build     
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release -f:net6.0-windows --no-restore
 
     - name: Publish
       run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="${{ secrets.PFX_THUMBPRINT }}" --no-build
