@@ -44,7 +44,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Publish
-      run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release --self-contained -p:PublishSingleFile=true --no-build
+      run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release --self-contained -p:PublishSingleFile=true
       env:
         RuntimeIdentifier: win-x64
 
