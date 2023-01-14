@@ -48,6 +48,18 @@ jobs:
       run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release --self-contained -p:PublishSingleFile=true
       env:
         RuntimeIdentifier: win-x64
+
+    - name: Get previous tag
+      id: previous_tag
+      uses: 'WyriHaximus/github-action-get-previous-tag@v1'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Get next minor version
+      id: minor_version
+      uses: 'WyriHaximus/github-action-next-semvers@v1'
+      env:
+        version: ${{ steps.previous_tag.outputs.tag }}
     
     - name: Create Release
       uses: actions/create-release@v1
@@ -55,8 +67,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ steps.minor_version.outputs.patch }}
+        release_name: Release ${{ steps.minor_version.outputs.patch }}
 
     - name: Upload
       uses: csexton/release-asset-action@v2
