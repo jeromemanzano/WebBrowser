@@ -7,11 +7,7 @@ on:
     branches: [ main ]
     tags:
       -'*'
-permissions:
-  contents: read
-  issues: write
-  pull-requests: write
-  
+
 env:
   DOTNET_VERSION: '6.0.405'
   WPF_PROJECT_PATH: WebBrowser.WPF/WebBrowser.WPF.csproj
@@ -21,7 +17,7 @@ jobs:
     # strategy:
     #   matrix:
     #     targetplatform: [ x86, x64 ]
-
+    permissions: write-all
     
     runs-on: windows-latest
 
