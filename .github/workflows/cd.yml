@@ -13,7 +13,7 @@ env:
   WPF_PROJECT_PATH: WebBrowser.WPF\WebBrowser.WPF.csproj
 
 jobs:
-  build-and-test:
+  build-and-package:
     strategy:
       matrix:
         targetplatform: [ x86, x64 ]
@@ -40,10 +40,22 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
 
-    - name: Publish
-      run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release -f:net6.0-windows /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="${{ secrets.PFX_THUMBPRINT }}"
+    - name: Build
+      run: dotnet build -c Release -f:net6.0-windows --no-restore       
 
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v3.1.0
+    - name: Publish
+      run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="${{ secrets.PFX_THUMBPRINT }}" --no-build
+
+    - uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        path: .\**\AppPackages\**\*.*
+        tag_name: ${{ github.ref }}
+        release: ${{ github.ref }}
+
+    - name: Upload
+      uses: csexton/release-asset-action@v2
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        pattern: WebBrowser.WPF/bin/Release/net6.0-windows/publish/*.exe
+        release-url: ${{ steps.create_release.outputs.upload_url }} 
