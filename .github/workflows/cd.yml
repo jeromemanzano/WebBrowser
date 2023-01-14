@@ -10,7 +10,7 @@ on:
 
 env:
   DOTNET_VERSION: '6.0.405'
-  WPF_PROJECT_PATH: WebBrowser.WPF\WebBrowser.WPF.csproj
+  WPF_PROJECT_PATH: WebBrowser.WPF/WebBrowser.WPF.csproj
 
 jobs:
   build-and-package:
