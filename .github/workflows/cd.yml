@@ -31,7 +31,7 @@ jobs:
 
     - name: Decrypt PFX File
       run:  |
-        echo: "${{ secrets.ENCODED_PFX }}" > cert.pfx.asc
+        echo "${{ secrets.ENCODED_PFX }}" > cert.pfx.asc
         certutil -decode cert.pfx.asc cert.pfx
 
     - name: Add Cert to store
