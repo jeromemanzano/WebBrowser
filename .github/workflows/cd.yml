@@ -48,13 +48,17 @@ jobs:
       env:
         RuntimeIdentifier: win-x64
 
-    - uses: actions/create-release@v1
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Create Release
+      uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
 
     - name: Upload
       uses: csexton/release-asset-action@v2
