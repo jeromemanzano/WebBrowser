@@ -17,13 +17,16 @@ jobs:
     # strategy:
     #   matrix:
     #     targetplatform: [ x86, x64 ]
-    permissions: write-all
-    
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+      
     runs-on: windows-latest
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup .NET Cores
       uses: actions/setup-dotnet@v3
