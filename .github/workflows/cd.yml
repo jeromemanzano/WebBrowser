@@ -44,7 +44,9 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Publish
-      run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true --no-build
+      run: dotnet publish ${{ env.WPF_PROJECT_PATH }} -c Release --self-contained -p:PublishSingleFile=true --no-build
+      env:
+        RuntimeIdentifier: win-${{ matrix.targetplatform }}
 
     - uses: actions/create-release@v1
       id: create_release
@@ -58,5 +60,5 @@ jobs:
       uses: csexton/release-asset-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        pattern: WebBrowser.WPF/bin/Release/net6.0-windows/publish/*.exe
+        pattern: WebBrowser.WPF/bin/Release/net6.0-windows/win-x64/publish/*.exe
         release-url: ${{ steps.create_release.outputs.upload_url }} 
