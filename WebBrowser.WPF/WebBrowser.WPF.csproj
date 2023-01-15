@@ -6,6 +6,8 @@
 		<UseWPF>true</UseWPF>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+		<CefSharpExcludeSubProcessExe>true</CefSharpExcludeSubProcessExe>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -13,7 +15,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CefSharp.Wpf.NETCore" Version="108.4.130" />
 		<PackageReference Include="ReactiveUI.WPF" Version="18.4.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ApplicationDefinition Remove="App.xaml" />
+	  <Page Include="App.xaml" />
 	</ItemGroup>
 
 </Project>

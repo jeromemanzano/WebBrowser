@@ -7,8 +7,29 @@
                            xmlns:local="clr-namespace:WebBrowser.WPF"
                            xmlns:reactiveUi="http://reactiveui.net"
                            xmlns:viewModels="clr-namespace:WebBrowser.ViewModels;assembly=WebBrowser"
+                           xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+                           xmlns:views="clr-namespace:WebBrowser.WPF.Views"
+                           xmlns:converters="clr-namespace:WebBrowser.WPF.Converters"
                            mc:Ignorable="d"
-                           Title="MainWindow" Height="450" Width="800">
+                           Title="{Binding Title, ElementName=BrowserPane, FallbackValue='Web Browser'}" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox Text="{Binding AddressBarText, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding Go}"
+                            CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType=TextBox}}"
+                            Key="Enter">
+                </KeyBinding>
+            </TextBox.InputBindings>
+        </TextBox>
+        <views:WelcomeView Grid.Row="1" 
+                           Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}, ConverterParameter='!'}" />
+        <cef:ChromiumWebBrowser x:Name="BrowserPane" 
+                                Grid.Row="1" 
+                                Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}}"
+                                Address="{Binding BrowserAddress}" />
     </Grid>
 </reactiveUi:ReactiveWindow>
