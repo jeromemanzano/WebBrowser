@@ -7,8 +7,24 @@
                            xmlns:local="clr-namespace:WebBrowser.WPF"
                            xmlns:reactiveUi="http://reactiveui.net"
                            xmlns:viewModels="clr-namespace:WebBrowser.ViewModels;assembly=WebBrowser"
+                           xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
                            mc:Ignorable="d"
                            Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox Text="{Binding AddressBarText, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding Go}"
+                            CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType=TextBox}}"
+                            Key="Enter">
+                </KeyBinding>
+            </TextBox.InputBindings>
+        </TextBox>
+        <cef:ChromiumWebBrowser x:Name="BrowserPane" 
+                                Grid.Row="1" 
+                                Address="{Binding BrowserAddress}" />
     </Grid>
 </reactiveUi:ReactiveWindow>
