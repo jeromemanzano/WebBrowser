@@ -2,12 +2,16 @@
 using DynamicData;
 using ReactiveUI;
 using WebBrowser.Extensions;
+using WebBrowser.Services;
 using WebBrowser.ViewModels;
+using Moq;
 
 namespace WebBrowser.Test.ViewModels;
 
 public class WithMainViewModel : BaseViewModelTest<MainViewModel>
 {
+    private Mock<IBrowserHistoryService> _browserHistoryServiceMock;
+    
     [TestCase(null, false)]
     [TestCase("", false)]
     [TestCase(" ", false)]
@@ -56,7 +60,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
             .Subscribe();
 
         Assert.IsFalse(text.IsValidUrl());
-        Assert.That(ViewModel.BrowserAddress, Is.EqualTo($"https://www.duckduckgo.com/?q={text}"));
+        Assert.That(ViewModel.BrowserAddress, Is.EqualTo($"https://duckduckgo.com/?q={text}"));
     }
     
     [Test]
@@ -71,7 +75,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
 
         Assert.IsFalse(text.IsValidUrl());
         Assert.That(urlEncodedText, Is.Not.EqualTo(text));
-        Assert.That(ViewModel.BrowserAddress, Is.EqualTo($"https://www.duckduckgo.com/?q={urlEncodedText}"));
+        Assert.That(ViewModel.BrowserAddress, Is.EqualTo($"https://duckduckgo.com/?q={urlEncodedText}"));
     }
     
     [Test]
@@ -109,6 +113,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
     
     protected override MainViewModel CreateViewModel()
     {
-        return new MainViewModel();
+        _browserHistoryServiceMock = new Mock<IBrowserHistoryService>();
+        return new MainViewModel(_browserHistoryServiceMock.Object);
     }
 }
