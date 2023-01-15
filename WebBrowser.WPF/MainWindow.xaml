@@ -9,7 +9,7 @@
                            xmlns:viewModels="clr-namespace:WebBrowser.ViewModels;assembly=WebBrowser"
                            xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
                            mc:Ignorable="d"
-                           Title="MainWindow" Height="450" Width="800">
+                           Title="{Binding Title, ElementName=BrowserPane, FallbackValue='Web Browser'}" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
