@@ -13,11 +13,27 @@
                            mc:Ignorable="d"
                            Title="{Binding Title, ElementName=BrowserPane, FallbackValue='Web Browser'}" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding AddressBarText, UpdateSourceTrigger=PropertyChanged}">
+        <Button Grid.Column="0" 
+                Content="Back" 
+                Command="{Binding BackCommand, ElementName=BrowserPane}"/>
+        <Button Grid.Column="1" 
+                Content="Forward"
+                Command="{Binding ForwardCommand, ElementName=BrowserPane}" />
+        <Button  Grid.Column="2"
+                 Content="Reload"
+                 Command="{Binding ReloadCommand, ElementName=BrowserPane}" />
+        <TextBox Grid.Column="3"
+                 Text="{Binding AddressBarText, UpdateSourceTrigger=PropertyChanged}">
             <TextBox.InputBindings>
                 <KeyBinding Command="{Binding Go}"
                             CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType=TextBox}}"
@@ -26,9 +42,11 @@
             </TextBox.InputBindings>
         </TextBox>
         <views:WelcomeView Grid.Row="1" 
+                           Grid.ColumnSpan="4"
                            Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}, ConverterParameter='!'}" />
         <cef:ChromiumWebBrowser x:Name="BrowserPane" 
                                 Grid.Row="1" 
+                                Grid.ColumnSpan="4"
                                 Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}}"
                                 Address="{Binding BrowserAddress}" />
     </Grid>
