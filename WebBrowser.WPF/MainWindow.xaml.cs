@@ -1,4 +1,6 @@
 ﻿using ReactiveUI;
+using Splat;
+using WebBrowser.Services;
 using WebBrowser.ViewModels;
 
 namespace WebBrowser.WPF
@@ -11,7 +13,7 @@ namespace WebBrowser.WPF
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            DataContext = new MainViewModel(Locator.Current.GetService<IBrowserHistoryService>());
         }
     }
 }

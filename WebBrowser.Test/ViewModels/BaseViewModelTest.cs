@@ -4,9 +4,10 @@ namespace WebBrowser.Test.ViewModels;
 
 public abstract class BaseViewModelTest<TViewModel> where TViewModel : BaseViewModel
 {
-    protected TViewModel ViewModel { get; }
+    protected TViewModel ViewModel { get; private set; }
 
-    protected BaseViewModelTest()
+    [SetUp]
+    public void Setup()
     {
         ViewModel = CreateViewModel();
     }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using Splat;
+using WebBrowser.Entities;
+using WebBrowser.Services;
+using WebBrowser.Services.Implementation;
+using WebBrowser.ViewModels;
 
 namespace WebBrowser.WPF
 {
@@ -13,5 +12,24 @@ namespace WebBrowser.WPF
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Akavache.Registrations.Start("WebBrowser");
+
+            SplatRegistrations.SetupIOC(Locator.GetLocator());
+            RegisterServices();
+            RegisterViewModels();
+        }
+        
+        private void RegisterServices()
+        {
+            SplatRegistrations.RegisterLazySingleton<IBrowserHistoryService, BrowserHistoryService>();
+            SplatRegistrations.RegisterLazySingleton<IRepositoryService<HistoryEntity>, RepositoryService<HistoryEntity>>();
+        }
+
+        private void RegisterViewModels()
+        {
+            SplatRegistrations.RegisterLazySingleton<BrowserHistoryViewModel>();
+        }
     }
 }

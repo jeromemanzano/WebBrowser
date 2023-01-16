@@ -2,12 +2,16 @@
 using DynamicData;
 using ReactiveUI;
 using WebBrowser.Extensions;
+using WebBrowser.Services;
 using WebBrowser.ViewModels;
+using Moq;
 
 namespace WebBrowser.Test.ViewModels;
 
 public class WithMainViewModel : BaseViewModelTest<MainViewModel>
 {
+    private Mock<IBrowserHistoryService> _browserHistoryServiceMock;
+    
     [TestCase(null, false)]
     [TestCase("", false)]
     [TestCase(" ", false)]
@@ -56,7 +60,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
             .Subscribe();
 
         Assert.IsFalse(text.IsValidUrl());
-        Assert.That(ViewModel.BrowserAddress, Is.EqualTo($"https://www.duckduckgo.com/?q={text}"));
+        Assert.That(ViewModel.BrowserAddress, Is.EqualTo($"https://duckduckgo.com/?q={text}"));
     }
     
     [Test]
@@ -71,7 +75,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
 
         Assert.IsFalse(text.IsValidUrl());
         Assert.That(urlEncodedText, Is.Not.EqualTo(text));
-        Assert.That(ViewModel.BrowserAddress, Is.EqualTo($"https://www.duckduckgo.com/?q={urlEncodedText}"));
+        Assert.That(ViewModel.BrowserAddress, Is.EqualTo($"https://duckduckgo.com/?q={urlEncodedText}"));
     }
     
     [Test]
@@ -106,9 +110,48 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
         ViewModel.BrowserAddress = initialAddressBarText;
         Assert.That(addressBarChange.Count, Is.EqualTo(1)); // AddressBarText is changed once, when it is set
     }
+
+    [TestCase("http://duckduckgo.com")]
+    [TestCase("https://duckduckgo.com")]
+    [TestCase("https://duckduckgo.com/")]
+    [TestCase("https://duckduckgo.com/?q=hello")]
+    [TestCase("duckduckgo.com")]
+    [TestCase("www.duckduckgo.com")]
+    [TestCase("127.0.0.1")]
+    [TestCase("http://127.0.0.1")]
+    public void When_BrowserAddress_Changed_And_AddressBarText_Is_Valid_Url_It_Should_Call_IBrowserHistoryService_AddWebsiteToHistory_With_BrowserAddress_Once(string validUrl)
+    {
+        ViewModel.AddressBarText = validUrl;
+
+        ViewModel.BrowserAddress = "sample.com";
+        
+        _browserHistoryServiceMock
+            .Verify(service => service.AddWebsiteToHistoryAsync(ViewModel.BrowserAddress), Times.Once);
+    }
+    
+    [Test]
+    public void When_BrowserAddress_Changed_And_AddressBarText_Is_Not_Valid_Url_It_Should_Not_Call_IBrowserHistoryService_AddWebsiteToHistory_With_BrowserAddress()
+    {
+        ViewModel.AddressBarText = "this is not a valid url";
+
+        ViewModel.BrowserAddress = "sample.com";
+        
+        _browserHistoryServiceMock
+            .Verify(service => service.AddWebsiteToHistoryAsync(It.IsAny<string>()), Times.Never);
+    }
+    
+    [Test]
+    public void ClearHistory_Should_Call_IBrowserHistoryService_DeleteAll_Once()
+    {
+        ViewModel.ClearHistory.Execute().Subscribe();
+        
+        _browserHistoryServiceMock
+            .Verify(service => service.DeleteAllAsync(), Times.Once);
+    }
     
     protected override MainViewModel CreateViewModel()
     {
-        return new MainViewModel();
+        _browserHistoryServiceMock = new Mock<IBrowserHistoryService>();
+        return new MainViewModel(_browserHistoryServiceMock.Object);
     }
 }

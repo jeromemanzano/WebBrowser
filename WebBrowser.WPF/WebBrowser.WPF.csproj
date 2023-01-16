@@ -5,11 +5,14 @@
 		<TargetFramework>net6.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 		<CefSharpExcludeSubProcessExe>true</CefSharpExcludeSubProcessExe>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<ProjectReference Include="..\WebBrowser\WebBrowser.csproj" />
 	</ItemGroup>
@@ -17,11 +20,18 @@
 	<ItemGroup>
 		<PackageReference Include="CefSharp.Wpf.NETCore" Version="108.4.130" />
 		<PackageReference Include="ReactiveUI.WPF" Version="18.4.1" />
+		<PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.1.69">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ApplicationDefinition Remove="App.xaml" />
-	  <Page Include="App.xaml" />
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<ApplicationDefinition Remove="App.xaml" />
+		<Page Include="App.xaml" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<Compile Remove="PublishSingleFile.cs" />
+	</ItemGroup>
 </Project>
