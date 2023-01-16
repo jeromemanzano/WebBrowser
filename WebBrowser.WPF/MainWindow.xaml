@@ -4,7 +4,6 @@
                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                           xmlns:local="clr-namespace:WebBrowser.WPF"
                            xmlns:reactiveUi="http://reactiveui.net"
                            xmlns:viewModels="clr-namespace:WebBrowser.ViewModels;assembly=WebBrowser"
                            xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
@@ -18,10 +17,12 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Button Grid.Column="0" 
                 Content="Back" 
@@ -41,13 +42,21 @@
                 </KeyBinding>
             </TextBox.InputBindings>
         </TextBox>
-        <views:WelcomeView Grid.Row="1" 
-                           Grid.ColumnSpan="4"
+        <Button  Grid.Column="4"
+                 Content="Clear History"
+                 Command="{Binding ClearHistory}" />
+        <views:WelcomeView Grid.Row="1"
+                           Grid.ColumnSpan="5"
                            Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}, ConverterParameter='!'}" />
-        <cef:ChromiumWebBrowser x:Name="BrowserPane" 
-                                Grid.Row="1" 
-                                Grid.ColumnSpan="4"
+        <views:BrowserHistoryView Grid.Row="2"
+                                  Grid.ColumnSpan="5"
+                                  DataContext="{Binding BrowserHistory}"
+                                  Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}, ConverterParameter='!'}" />
+        <cef:ChromiumWebBrowser x:Name="BrowserPane"
+                                Grid.Row="1"
+                                Grid.RowSpan="2"
+                                Grid.ColumnSpan="5"
                                 Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}}"
-                                Address="{Binding BrowserAddress}" />
+                                Address="{Binding BrowserAddress, Mode=TwoWay}" />
     </Grid>
 </reactiveUi:ReactiveWindow>
