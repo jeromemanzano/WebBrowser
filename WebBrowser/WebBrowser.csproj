@@ -10,6 +10,7 @@
       <PackageReference Include="akavache" Version="9.0.1" />
       <PackageReference Include="ReactiveUI" Version="18.4.1" />
       <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
+	  <PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.1.69" PrivateAssets="all" />
     </ItemGroup>
 
 </Project>
