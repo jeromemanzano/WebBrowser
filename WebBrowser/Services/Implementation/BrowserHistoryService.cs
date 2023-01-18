@@ -9,7 +9,7 @@ public class BrowserHistoryService : IBrowserHistoryService
 {
     private readonly IRepositoryService<HistoryEntity> _historyRepository;
     private readonly SourceCache<HistoryEntity, string> _browserHistory = new(x => x.Id);
-    private HistoryEntity _lastAddedEntity;
+    private HistoryEntity? _lastAddedEntity;
     public IObservableCache<HistoryEntity, string> BrowserHistory => _browserHistory.AsObservableCache();
 
     public BrowserHistoryService(IRepositoryService<HistoryEntity> historyRepository)
@@ -24,7 +24,6 @@ public class BrowserHistoryService : IBrowserHistoryService
 
     public async Task AddSearchToBrowserHistoryAsync(string searchTerm, string url)
     {
-        
         var historyEntity = new HistoryEntity()
         {
             Query = searchTerm,
@@ -37,8 +36,8 @@ public class BrowserHistoryService : IBrowserHistoryService
 
     public async Task AddWebsiteToHistoryAsync(string url)
     {
-        // This is for handling reload, so we don't add the same url twice.
-        if (url == _lastAddedEntity?.Url)
+        if (url == _lastAddedEntity?.Url // This is for handling reload, so we don't add the same url twice.
+            || !Uri.IsWellFormedUriString(url, UriKind.Absolute))
         {
             return;
         }
