@@ -165,9 +165,7 @@ public class WithAutoCompleteService
 
             task.Start();
             await task;
-            using var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
-  
-            scheduler.AdvanceByMs(1);
+            scheduler.AdvanceByMs(100);
             
             // Next value contains api results
             CollectionAssert.AreEquivalent(apiResults, onNextSearchResult);
