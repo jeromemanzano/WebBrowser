@@ -18,20 +18,7 @@ public class ObjectToVisibilityConverter : BaseValueConverter<ObjectToVisibility
     {
         var boolValue = value as bool?;
         
-        if (!boolValue.HasValue)
-        {
-            if (value is string stringValue && !string.IsNullOrEmpty(stringValue))
-            {
-                boolValue = true;
-            }
-            else if (value is int intValue)
-            {
-                boolValue = intValue != 0;
-            }
-        }
-
-        boolValue ??= value != null;
-
+        boolValue ??= ObjectToBooleanConverter.ConvertObjectToBoolean(value);
 
         if (parameter is "!")
         {
