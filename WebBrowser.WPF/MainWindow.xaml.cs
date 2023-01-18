@@ -13,7 +13,7 @@ namespace WebBrowser.WPF
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel(Locator.Current.GetService<IBrowserHistoryService>());
+            DataContext = Locator.Current.GetService<MainViewModel>();
         }
     }
 }

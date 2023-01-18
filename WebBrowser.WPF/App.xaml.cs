@@ -31,6 +31,7 @@ namespace WebBrowser.WPF
 
         private void RegisterViewModels()
         {
+            SplatRegistrations.RegisterLazySingleton<MainViewModel>();
             SplatRegistrations.RegisterLazySingleton<BrowserHistoryViewModel>();
         }
     }
