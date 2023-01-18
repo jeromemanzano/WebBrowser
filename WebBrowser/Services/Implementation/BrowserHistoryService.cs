@@ -47,7 +47,7 @@ public class BrowserHistoryService : IBrowserHistoryService
 
         var historyEntity = new HistoryEntity()
         {
-            Query = uri.Query,
+            Query = uri.AbsolutePath,
             Url = url,
             UtcTimeStamp = DateTime.UtcNow
         };
