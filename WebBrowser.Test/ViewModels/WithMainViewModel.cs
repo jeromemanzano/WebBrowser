@@ -1,17 +1,21 @@
-﻿using System.Web;
+﻿using System.Reactive.Linq;
+using System.Web;
 using DynamicData;
+using Microsoft.Reactive.Testing;
 using ReactiveUI;
 using WebBrowser.Extensions;
 using WebBrowser.Services;
 using WebBrowser.ViewModels;
 using Moq;
+using ReactiveUI.Testing;
 
 namespace WebBrowser.Test.ViewModels;
 
 public class WithMainViewModel : BaseViewModelTest<MainViewModel>
 {
-    private Mock<IBrowserHistoryService> _browserHistoryServiceMock;
-    
+    private Mock<IBrowserHistoryService> _browserHistoryService;
+    private Mock<IAutoCompleteService> _autoCompleteService;
+
     [TestCase(null, false)]
     [TestCase("", false)]
     [TestCase(" ", false)]
@@ -125,7 +129,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
 
         ViewModel.BrowserAddress = "sample.com";
         
-        _browserHistoryServiceMock
+        _browserHistoryService
             .Verify(service => service.AddWebsiteToHistoryAsync(ViewModel.BrowserAddress), Times.Once);
     }
     
@@ -136,7 +140,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
 
         ViewModel.BrowserAddress = "sample.com";
         
-        _browserHistoryServiceMock
+        _browserHistoryService
             .Verify(service => service.AddWebsiteToHistoryAsync(It.IsAny<string>()), Times.Never);
     }
     
@@ -145,13 +149,78 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
     {
         ViewModel.ClearHistory.Execute().Subscribe();
         
-        _browserHistoryServiceMock
+        _browserHistoryService
             .Verify(service => service.DeleteAllAsync(), Times.Once);
     }
+
+    [Test]
+    public void Go_Should_Clear_Suggestions()
+    {
+        ViewModel.Suggestions.AddRange(Enumerable.Range(0, 10).Select(_ => Guid.NewGuid().ToString()));
+        
+        ViewModel.Go.Execute("search term").Subscribe();
+        
+        CollectionAssert.IsEmpty(ViewModel.Suggestions);
+    }
     
+    [Test]
+    public void When_AddressBarText_Is_Change_Should_Clear_Suggestions()
+    {
+        ViewModel.Suggestions.AddRange(Enumerable.Range(0, 10).Select(_ => Guid.NewGuid().ToString()));
+
+        ViewModel.AddressBarText = "test";
+        
+        CollectionAssert.IsEmpty(ViewModel.Suggestions);
+    }
+
+    [Test]
+    public void While_AddressBarText_Is_Changing_Should_Wait_For_Throttle_Before_Calling_GetSuggestions()
+    {
+        new TestScheduler().With(scheduler =>
+        {
+            ViewModel = new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            _autoCompleteService
+                .Setup(service => service.GetSuggestions(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns(Observable.Return(Enumerable.Empty<string>().ToList().AsReadOnly()));
+
+            var finalText = "final text";
+            ViewModel.AddressBarText = "first text";
+            ViewModel.AddressBarText = "second text";
+            ViewModel.AddressBarText = finalText;
+            scheduler.AdvanceByMs(299);
+            
+            // Should not call GetSuggestions before 300ms throttle
+            _autoCompleteService.Verify(
+                service => service.GetSuggestions(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+            
+            scheduler.AdvanceByMs(1);
+            _autoCompleteService.Verify(
+                service => service.GetSuggestions(finalText, It.IsAny<CancellationToken>()), Times.Once);
+        });
+    }
+    
+    [Test]
+    public void GetSuggestions_Result_Should_Be_Assigned_To_Suggestions()
+    {
+        new TestScheduler().With(scheduler =>
+        {
+            ViewModel = new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            var suggestions = new List<string> {"suggestion 1", "suggestion 2"};
+            _autoCompleteService
+                .Setup(service => service.GetSuggestions(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns(Observable.Return(suggestions.AsReadOnly()));
+
+            ViewModel.AddressBarText = "test";
+            scheduler.AdvanceByMs(301);
+
+            CollectionAssert.AreEqual(suggestions, ViewModel.Suggestions);
+        });
+    }
+
     protected override MainViewModel CreateViewModel()
     {
-        _browserHistoryServiceMock = new Mock<IBrowserHistoryService>();
-        return new MainViewModel(_browserHistoryServiceMock.Object);
+        _browserHistoryService = new Mock<IBrowserHistoryService>();
+        _autoCompleteService = new Mock<IAutoCompleteService>();
+        return new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object);
     }
 }

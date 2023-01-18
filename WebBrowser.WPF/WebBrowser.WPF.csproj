@@ -19,6 +19,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CefSharp.Wpf.NETCore" Version="108.4.130" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
 		<PackageReference Include="ReactiveUI.WPF" Version="18.4.1" />
 		<PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.1.69">
 		  <PrivateAssets>all</PrivateAssets>
