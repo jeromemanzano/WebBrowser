@@ -168,16 +168,7 @@ public class WithAutoCompleteService
             IReadOnlyCollection<string>? onNextSearchResult = null;
             _autoCompleteService
                 !.GetSuggestions(searchTerm, CancellationToken.None)
-                .Subscribe(
-                    onNext: result =>
-                    {
-                        Console.WriteLine($"OnNextResult: Tick={scheduler.Now.Ticks} {result}");
-                        onNextSearchResult = result;
-                    }, 
-                    onCompleted: () =>
-                    {
-                        Console.WriteLine($"OnCompleted: Tick={scheduler.Now.Ticks}");
-                    });
+                .Subscribe(onNext: result => onNextSearchResult = result);
 
             scheduler.Start();
 
