@@ -13,9 +13,7 @@ public class RepositoryService<T> : IRepositoryService<T> where T : BaseEntity
 
     public async Task AddAsync(T entity)
     {
-        var test = BlobCache.LocalMachine.InsertObject(entity.Id, entity);
-
-        await test;
+        await BlobCache.LocalMachine.InsertObject(entity.Id, entity);
     }
 
     public async Task RemoveAsync(T entity)

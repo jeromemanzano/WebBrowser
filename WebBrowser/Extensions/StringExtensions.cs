@@ -4,7 +4,7 @@ namespace WebBrowser.Extensions;
 
 public static class StringExtensions
 {
-    private static readonly Regex _urlPattern = new(@"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$",
+    private static readonly Regex _urlPattern = new(@"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!%\$&'\(\)\*\+,;=.]+$",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
     
     /// <summary>

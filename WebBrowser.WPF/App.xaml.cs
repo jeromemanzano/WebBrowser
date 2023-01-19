@@ -24,11 +24,14 @@ namespace WebBrowser.WPF
         private void RegisterServices()
         {
             SplatRegistrations.RegisterLazySingleton<IBrowserHistoryService, BrowserHistoryService>();
+            SplatRegistrations.RegisterLazySingleton<IDuckDuckGoApiService, DuckDuckGoApiService>();
+            SplatRegistrations.RegisterLazySingleton<IAutoCompleteService, AutoCompleteService>();
             SplatRegistrations.RegisterLazySingleton<IRepositoryService<HistoryEntity>, RepositoryService<HistoryEntity>>();
         }
 
         private void RegisterViewModels()
         {
+            SplatRegistrations.RegisterLazySingleton<MainViewModel>();
             SplatRegistrations.RegisterLazySingleton<BrowserHistoryViewModel>();
         }
     }

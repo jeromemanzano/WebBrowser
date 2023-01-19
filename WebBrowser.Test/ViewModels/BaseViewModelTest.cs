@@ -4,7 +4,7 @@ namespace WebBrowser.Test.ViewModels;
 
 public abstract class BaseViewModelTest<TViewModel> where TViewModel : BaseViewModel
 {
-    protected TViewModel ViewModel { get; private set; }
+    protected TViewModel ViewModel { get; set; }
 
     [SetUp]
     public void Setup()

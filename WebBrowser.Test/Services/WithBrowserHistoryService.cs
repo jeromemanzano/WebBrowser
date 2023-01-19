@@ -63,8 +63,8 @@ public class WithBrowserHistoryService
         await _browserHistoryService.AddWebsiteToHistoryAsync(url);
         
         _repositoryService
-            .Verify(service => service.AddAsync(It.Is<HistoryEntity>(entity => entity.Url == url && entity.Query == uri.Query)), Times.Once);
-        Assert.IsTrue(_browserHistoryService.BrowserHistory.Items.Any(history => history.Query == uri.Query && history.Url == url));
+            .Verify(service => service.AddAsync(It.Is<HistoryEntity>(entity => entity.Url == url && entity.Query == uri.AbsolutePath)), Times.Once);
+        Assert.IsTrue(_browserHistoryService.BrowserHistory.Items.Any(history => history.Query == uri.AbsolutePath && history.Url == url));
     }
     
     [Test]
