@@ -1,5 +1,4 @@
 ﻿using System.Reactive.Concurrency;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using DynamicData;
@@ -149,9 +148,10 @@ public class WithAutoCompleteService
 
             var acSuggestionsTask = subject.ToTask(scheduler);
             var apiResults = new List<string> {"apiResult1", "apiResult2"};
-
-            subject.OnNext(apiResults);
-            scheduler.Schedule(TimeSpan.FromMilliseconds(1000),
+            
+            scheduler.Schedule(TimeSpan.FromTicks(100), 
+                () => subject.OnNext(apiResults));
+            scheduler.Schedule(TimeSpan.FromTicks(1000),
                 () => subject.OnCompleted());
 
             var searchTerm = "searchTerm";
@@ -168,14 +168,20 @@ public class WithAutoCompleteService
             IReadOnlyCollection<string>? onNextSearchResult = null;
             _autoCompleteService
                 !.GetSuggestions(searchTerm, CancellationToken.None)
-                .ObserveOn(scheduler)
-                .Subscribe(onNext: result => onNextSearchResult = result);
+                .Subscribe(
+                    onNext: result =>
+                    {
+                        Console.WriteLine($"OnNextResult: Tick={scheduler.Now.Ticks} {result}");
+                        onNextSearchResult = result;
+                    }, 
+                    onCompleted: () =>
+                    {
+                        Console.WriteLine($"OnCompleted: Tick={scheduler.Now.Ticks}");
+                    });
 
             scheduler.Start();
 
             CollectionAssert.AreEquivalent(history.Select(x => x.Query), onNextSearchResult);
-
-            scheduler.AdvanceToMs(1001);
             CollectionAssert.AreEquivalent(apiResults, onNextSearchResult);
         });
     }
