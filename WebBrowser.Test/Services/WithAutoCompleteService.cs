@@ -1,4 +1,8 @@
-﻿using DynamicData;
+﻿using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
+using DynamicData;
 using Microsoft.Reactive.Testing;
 using Moq;
 using ReactiveUI.Testing;
@@ -10,12 +14,12 @@ namespace WebBrowser.Test.Services;
 
 public class WithAutoCompleteService
 {
-    private readonly Mock<IDuckDuckGoApiService> _duckDuckGoApiService = new ();
+    private readonly Mock<IDuckDuckGoApiService> _duckDuckGoApiService = new();
     private readonly Mock<IBrowserHistoryService> _browserHistoryService = new();
     private readonly SourceCache<HistoryEntity, string> _browserHistory = new(x => x.Id);
     private readonly IReadOnlyCollection<string> _apiResults = new List<string>();
     private IAutoCompleteService? _autoCompleteService;
-    
+
     [SetUp]
     public void SetUp()
     {
@@ -44,7 +48,7 @@ public class WithAutoCompleteService
         Assert.IsNull(getSuggestionsException);
         CollectionAssert.IsEmpty(searchResults);
     }
-    
+
     [Test]
     public void GetSuggestions_Should_Not_Throw_Exception_And_Return_Empty_Result_When_Api_Throws_Exception()
     {
@@ -135,12 +139,21 @@ public class WithAutoCompleteService
         CollectionAssert.IsNotEmpty(searchResults);
         CollectionAssert.AreEquivalent(latestFive.Select(x => x.Query), searchResults);
     }
-    
+
     [Test]
-    public async Task GetSuggestions_Should_Return_History_And_DuckDuckGo_Results()
+    public void GetSuggestions_Should_Return_History_And_DuckDuckGo_Results()
     {
-        await new TestScheduler().With(async scheduler =>
+        new TestScheduler().With(scheduler =>
         {
+            var subject = new Subject<IEnumerable<string>>();
+
+            var acSuggestionsTask = subject.ToTask(scheduler);
+            var apiResults = new List<string> {"apiResult1", "apiResult2"};
+
+            subject.OnNext(apiResults);
+            scheduler.Schedule(TimeSpan.FromMilliseconds(1000),
+                () => subject.OnCompleted());
+
             var searchTerm = "searchTerm";
             var history = Enumerable
                 .Range(0, 5).Select(index => new HistoryEntity()
@@ -148,26 +161,21 @@ public class WithAutoCompleteService
                 .ToArray();
             _browserHistory.AddOrUpdate(history);
 
-            var apiResults = new List<string> { "apiResult1", "apiResult2" };
-            var task = new Task<IEnumerable<string>>(() => apiResults.AsReadOnly());
-            
             _duckDuckGoApiService
                 .Setup(x => x.GetAutoCompleteSuggestionsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .Returns(() => task);
+                .Returns(acSuggestionsTask);
 
             IReadOnlyCollection<string>? onNextSearchResult = null;
             _autoCompleteService
                 !.GetSuggestions(searchTerm, CancellationToken.None)
+                .ObserveOn(scheduler)
                 .Subscribe(onNext: result => onNextSearchResult = result);
 
-            // next value contains only history results
+            scheduler.Start();
+
             CollectionAssert.AreEquivalent(history.Select(x => x.Query), onNextSearchResult);
 
-            task.Start();
-            await task;
-            scheduler.AdvanceByMs(100);
-            
-            // Next value contains api results
+            scheduler.AdvanceToMs(1001);
             CollectionAssert.AreEquivalent(apiResults, onNextSearchResult);
         });
     }
