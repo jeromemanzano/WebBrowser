@@ -60,7 +60,7 @@
         </Button>
         <TextBox x:Name="AddressBarTextBox"
                  Grid.Column="3"
-                 Tag="Type URL or search keywords here"
+                 PreviewKeyDown="OnTextBox_PreviewKeyDown"
                  Text="{Binding AddressBarText, UpdateSourceTrigger=PropertyChanged}">
             <TextBox.InputBindings>
                 <KeyBinding Command="{Binding Go}"
