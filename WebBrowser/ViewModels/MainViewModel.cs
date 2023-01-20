@@ -25,23 +25,23 @@ public class MainViewModel : BaseViewModel
 
     [Reactive] public string AddressBarText { get; set; } // This is the text shown in the address bar
 
-    public BrowserHistoryViewModel BrowserHistory { get; }
+    public BrowserHistoryViewModel? BrowserHistory { get; }
 
     public MainViewModel(IBrowserHistoryService browserHistoryService,
         IAutoCompleteService autoCompleteService,
         IScheduler? taskPoolScheduler = null)
     {
         _historyService = browserHistoryService;
-        BrowserHistory = Locator.Current.GetService<BrowserHistoryViewModel>()!;
+        BrowserHistory = Locator.Current.GetService<BrowserHistoryViewModel>();
 
         var canGo = this.WhenAnyValue(x => x.AddressBarText, x => !string.IsNullOrWhiteSpace(x));
         Go = ReactiveCommand.Create<string>(GoImpl, canGo);
 
         var canClear = BrowserHistory
-            .History
+            ?.History
             .ToObservableChangeSet()
             .ToCollection()
-            .Select(history => history.Count > 0);
+            .Select(history => history.Count > 0) ?? Observable.Return(false);
         ClearHistory = ReactiveCommand.CreateFromTask(ClearHistoryImplAsync, canClear);
 
         this.WhenAnyValue(x => x.BrowserAddress)
