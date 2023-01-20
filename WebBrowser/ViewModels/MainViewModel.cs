@@ -88,7 +88,6 @@ public class MainViewModel : BaseViewModel
         
         Suggestions.Clear();
 
-
         BrowserAddress = queryString.IsValidUrl()
             ? queryString
             : $"https://duckduckgo.com/?q={HttpUtility.UrlEncode(queryString)}"; // When user types a query, we search it on duckduckgo.com
