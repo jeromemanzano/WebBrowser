@@ -9,6 +9,7 @@ using Splat;
 using WebBrowser.Extensions;
 using WebBrowser.Services;
 using DynamicData;
+using DynamicData.Binding;
 
 namespace WebBrowser.ViewModels;
 
@@ -36,7 +37,12 @@ public class MainViewModel : BaseViewModel
         var canGo = this.WhenAnyValue(x => x.AddressBarText, x => !string.IsNullOrWhiteSpace(x));
         Go = ReactiveCommand.Create<string>(GoImpl, canGo);
 
-        ClearHistory = ReactiveCommand.CreateFromTask(ClearHistoryImplAsync);
+        var canClear = BrowserHistory
+            .History
+            .ToObservableChangeSet()
+            .ToCollection()
+            .Select(history => history.Count > 0);
+        ClearHistory = ReactiveCommand.CreateFromTask(ClearHistoryImplAsync, canClear);
 
         this.WhenAnyValue(x => x.BrowserAddress)
             .Where(x => x != AddressBarText)
