@@ -25,6 +25,8 @@ public class MainViewModel : BaseViewModel
 
     [Reactive] public string AddressBarText { get; set; } // This is the text shown in the address bar
 
+    [Reactive] public string SelectedSuggestion { get; set; } // This is the text shown in the address bar
+
     public BrowserHistoryViewModel? BrowserHistory { get; }
 
     public MainViewModel(IBrowserHistoryService browserHistoryService,
@@ -50,6 +52,7 @@ public class MainViewModel : BaseViewModel
             .Subscribe();
 
         this.WhenAnyValue(x => x.AddressBarText)
+            .Where(searchTerm => searchTerm != SelectedSuggestion)
             .Do(_ => Suggestions.Clear())
             .Where(searchTerm => searchTerm != BrowserAddress)
             .Throttle(TimeSpan.FromMilliseconds(300), taskPoolScheduler ?? RxApp.TaskpoolScheduler) //based on average reaction time here https://humanbenchmark.com/tests/reactiontime/statistics

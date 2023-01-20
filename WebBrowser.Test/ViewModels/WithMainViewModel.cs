@@ -164,13 +164,28 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
     }
     
     [Test]
-    public void When_AddressBarText_Is_Change_Should_Clear_Suggestions()
+    public void When_AddressBarText_Changed_Suggestions_Should_Be_Cleared()
     {
         ViewModel.Suggestions.AddRange(Enumerable.Range(0, 10).Select(_ => Guid.NewGuid().ToString()));
 
         ViewModel.AddressBarText = "test";
         
         CollectionAssert.IsEmpty(ViewModel.Suggestions);
+    }
+
+    [Test]
+    public void When_AddressBarText_Changed_And_Text_Is_Same_As_SelectedSuggestion_Suggestions_Should_Not_Be_Cleared()
+    {
+        var suggestions = Enumerable.Range(0, 10).Select(_ => Guid.NewGuid().ToString()).ToList();
+        ViewModel.Suggestions.AddRange(suggestions);
+        var text = "test";
+
+        ViewModel.SelectedSuggestion = text;
+        ViewModel.AddressBarText = text;
+        
+        
+        CollectionAssert.IsNotEmpty(ViewModel.Suggestions);
+        CollectionAssert.AreEquivalent(suggestions, ViewModel.Suggestions);
     }
 
     [Test]
