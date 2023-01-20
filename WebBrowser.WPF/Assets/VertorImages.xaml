@@ -42,7 +42,7 @@
       <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
         <GeometryDrawing>
           <GeometryDrawing.Pen>
-            <Pen Brush="#FF000000" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+            <Pen Brush="#FFFFFF" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
           </GeometryDrawing.Pen>
           <GeometryDrawing.Geometry>
             <LineGeometry StartPoint="18,6" EndPoint="6,18" />
@@ -50,7 +50,7 @@
         </GeometryDrawing>
         <GeometryDrawing>
           <GeometryDrawing.Pen>
-            <Pen Brush="#FF000000" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+            <Pen Brush="#FFFFFF" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
           </GeometryDrawing.Pen>
           <GeometryDrawing.Geometry>
             <LineGeometry StartPoint="6,6" EndPoint="18,18" />
@@ -79,6 +79,31 @@
         <GeometryDrawing Geometry="F1 M24,24z M0,0z M21,10C21,10 18.995,7.26822 17.3662,5.63824 15.7373,4.00827 13.4864,3 11,3 6.02944,3 2,7.02944 2,12 2,16.9706 6.02944,21 11,21 15.1031,21 18.5649,18.2543 19.6482,14.5 M21,10L21,4 M21,10L15,10">
           <GeometryDrawing.Pen>
             <Pen Brush="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" Thickness="2.5" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" MiterLimit="1" />
+          </GeometryDrawing.Pen>
+        </GeometryDrawing>
+      </DrawingGroup>
+    </DrawingImage.Drawing>
+  </DrawingImage>
+  <DrawingImage x:Key="ChevronDown">
+    <DrawingImage.Drawing>
+      <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+        <GeometryDrawing Geometry="F1 M24,24z M0,0z M6,9L6,9 12,15 18,9">
+          <GeometryDrawing.Pen>
+            <Pen Brush="#FFFFFF" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+          </GeometryDrawing.Pen>
+        </GeometryDrawing>
+      </DrawingGroup>
+    </DrawingImage.Drawing>
+  </DrawingImage>
+  <DrawingImage x:Key="ChevronUp">
+    <DrawingImage.Drawing>
+      <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+        <DrawingGroup.Transform>
+          <RotateTransform Angle="180" />
+        </DrawingGroup.Transform>
+        <GeometryDrawing Geometry="F1 M24,24z M0,0z M6,9L6,9 12,15 18,9">
+          <GeometryDrawing.Pen>
+            <Pen Brush="#FFFFFF" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
           </GeometryDrawing.Pen>
         </GeometryDrawing>
       </DrawingGroup>

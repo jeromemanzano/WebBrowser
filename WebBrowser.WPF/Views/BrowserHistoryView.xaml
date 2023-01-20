@@ -10,24 +10,45 @@
                                 mc:Ignorable="d"
                                 d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="GroupedItems"
-                              Source="{Binding History}">
-            <CollectionViewSource.SortDescriptions>
-                <componentModel:SortDescription PropertyName="LocalTimeStamp" Direction="Descending"/>
-            </CollectionViewSource.SortDescriptions>
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Host" />
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
+        <ResourceDictionary>
+            <CollectionViewSource x:Key="GroupedItems"
+                                  Source="{Binding History}">
+                <CollectionViewSource.SortDescriptions>
+                    <componentModel:SortDescription PropertyName="LocalTimeStamp" Direction="Descending"/>
+                </CollectionViewSource.SortDescriptions>
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="Host" />
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/BrowserHistoryView.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
-    <ListView ItemsSource="{Binding Source={StaticResource GroupedItems}}">
+    <ListView ItemsSource="{Binding Source={StaticResource GroupedItems}}"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+              ScrollViewer.VerticalScrollBarVisibility="Disabled"
+              MaxWidth="500"
+              BorderThickness="0"
+              Margin="100,0,100,50"
+              HorizontalContentAlignment="Left"
+              Background="Transparent">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <StackPanel>
-                    <TextBlock Text="{Binding Query}" />
-                    <TextBlock Text="{Binding LocalTimeStamp}" />
-                    <Button Content="Delete" Command="{Binding Path=DataContext.DeleteHistoryItem, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding }" />
-                </StackPanel>
+                <DockPanel HorizontalAlignment="Stretch" Margin="10,0">
+                    <Button Command="{Binding Path=DataContext.DeleteHistoryItem, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding }"
+                            DockPanel.Dock="Right"
+                            Height="20"
+                            Width="20"
+                            Style="{StaticResource IconButtons}">
+                        <Image Source="{StaticResource XMark}" />
+                    </Button>
+                    <TextBlock Text="{Binding LocalTimeStamp, StringFormat=dd/MM/yy hh:mm tt}" Margin="5,0,0,0" VerticalAlignment="Center" DockPanel.Dock="Right" />
+                    <TextBlock Text="{Binding Query}" 
+                               FontSize="12"
+                               VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" />
+                </DockPanel>
             </DataTemplate>
         </ListView.ItemTemplate>
         <ListView.GroupStyle>
@@ -40,7 +61,7 @@
                                     <Expander IsExpanded="True">
                                         <Expander.Header>
                                             <StackPanel>
-                                                <TextBlock Text="{Binding Path=Items[0].Host}" />
+                                                <TextBlock Text="{Binding Path=Items[0].Host}" FontSize="16" FontWeight="Bold" />
                                             </StackPanel>
                                         </Expander.Header>
                                         <ItemsPresenter />

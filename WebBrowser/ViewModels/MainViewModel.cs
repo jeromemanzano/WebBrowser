@@ -9,6 +9,7 @@ using Splat;
 using WebBrowser.Extensions;
 using WebBrowser.Services;
 using DynamicData;
+using DynamicData.Binding;
 
 namespace WebBrowser.ViewModels;
 
@@ -24,19 +25,24 @@ public class MainViewModel : BaseViewModel
 
     [Reactive] public string AddressBarText { get; set; } // This is the text shown in the address bar
 
-    public BrowserHistoryViewModel BrowserHistory { get; }
+    public BrowserHistoryViewModel? BrowserHistory { get; }
 
     public MainViewModel(IBrowserHistoryService browserHistoryService,
         IAutoCompleteService autoCompleteService,
         IScheduler? taskPoolScheduler = null)
     {
         _historyService = browserHistoryService;
-        BrowserHistory = Locator.Current.GetService<BrowserHistoryViewModel>()!;
+        BrowserHistory = Locator.Current.GetService<BrowserHistoryViewModel>();
 
         var canGo = this.WhenAnyValue(x => x.AddressBarText, x => !string.IsNullOrWhiteSpace(x));
         Go = ReactiveCommand.Create<string>(GoImpl, canGo);
 
-        ClearHistory = ReactiveCommand.CreateFromTask(ClearHistoryImplAsync);
+        var canClear = BrowserHistory
+            ?.History
+            .ToObservableChangeSet()
+            .ToCollection()
+            .Select(history => history.Count > 0) ?? Observable.Return(false);
+        ClearHistory = ReactiveCommand.CreateFromTask(ClearHistoryImplAsync, canClear);
 
         this.WhenAnyValue(x => x.BrowserAddress)
             .Where(x => x != AddressBarText)
@@ -87,7 +93,6 @@ public class MainViewModel : BaseViewModel
             return;
         
         Suggestions.Clear();
-
 
         BrowserAddress = queryString.IsValidUrl()
             ? queryString
