@@ -80,6 +80,11 @@
                      ItemsSource="{Binding Suggestions}"
                      SelectedItem="{Binding SelectedSuggestion, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListBoxItem_OnPreviewMouseLeftButtonDown" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding }"

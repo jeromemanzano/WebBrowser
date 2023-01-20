@@ -38,12 +38,10 @@ namespace WebBrowser.WPF
             if (e.Key == Key.Down && _suggestionsListBox.SelectedIndex < _suggestionsListBox.Items.Count - 1)
             {
                 _suggestionsListBox.SelectedIndex++;
-                e.Handled = true;
             }
             else if (e.Key == Key.Up && _suggestionsListBox.SelectedIndex > 0)
             {
                 _suggestionsListBox.SelectedIndex--;
-                e.Handled = true;
             }
             else
             {
@@ -52,6 +50,21 @@ namespace WebBrowser.WPF
             
             _addressBarTextBox.Text = _suggestionsListBox.SelectedItem.ToString()!;
             _addressBarTextBox.CaretIndex = _addressBarTextBox.Text.Length;
+            e.Handled = true;
+        }
+
+        private void ListBoxItem_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ListBoxItem item)
+            {
+                var suggestion = item.DataContext.ToString()!;
+                ViewModel!.SelectedSuggestion = suggestion;
+                _addressBarTextBox.Text = suggestion;
+                _addressBarTextBox.CaretIndex = _addressBarTextBox.Text.Length;
+
+                ViewModel.Go.Execute(suggestion).Subscribe();
+                e.Handled = true;
+            }
         }
     }
 }
