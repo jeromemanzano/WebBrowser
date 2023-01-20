@@ -13,7 +13,9 @@ namespace WebBrowser.WPF
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = Locator.Current.GetService<MainViewModel>();
+            var viewModel = Locator.Current.GetService<MainViewModel>();
+            DataContext = viewModel;
+            ViewModel = viewModel;
         }
     }
 }
