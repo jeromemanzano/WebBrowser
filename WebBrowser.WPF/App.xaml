@@ -4,6 +4,17 @@
              xmlns:local="clr-namespace:WebBrowser.WPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#232020" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Assets/Colors.xaml" />
+                <ResourceDictionary Source="/Assets/VertorImages.xaml" />
+                <ResourceDictionary Source="/Styles/Button.xaml" />
+                <ResourceDictionary Source="/Styles/TextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
     </Application.Resources>
 </Application>

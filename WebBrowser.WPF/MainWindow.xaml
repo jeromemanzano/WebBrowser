@@ -13,6 +13,13 @@
                            mc:Ignorable="d"
                            Title="{Binding Title, ElementName=BrowserPane, FallbackValue='Web Browser'}" Height="450"
                            Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/MainWindow.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -27,17 +34,33 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Button Grid.Column="0"
-                Content="Back"
-                Command="{Binding BackCommand, ElementName=BrowserPane}" />
+                Style="{StaticResource IconButtons}"
+                Command="{Binding BackCommand, ElementName=BrowserPane}">
+            <Button.ToolTip>
+                <ToolTip Content="Click to go back" />
+            </Button.ToolTip>
+            <Image Source="{StaticResource ArrowLeft}" />
+        </Button>
         <Button Grid.Column="1"
-                Content="Forward"
-                Command="{Binding ForwardCommand, ElementName=BrowserPane}" />
+                Style="{StaticResource IconButtons}"
+                Command="{Binding ForwardCommand, ElementName=BrowserPane}">
+            <Button.ToolTip>
+                <ToolTip Content="Click to go forward" />
+            </Button.ToolTip>
+            <Image Source="{StaticResource ArrowRight}" />
+        </Button>
         <Button Grid.Column="2"
-                Content="Reload"
+                Style="{StaticResource IconButtons}"
                 IsEnabled="{Binding Title, ElementName=BrowserPane, Converter={x:Static converters:ObjectToBooleanConverter.Instance}}"
-                Command="{Binding ReloadCommand, ElementName=BrowserPane}" />
+                Command="{Binding ReloadCommand, ElementName=BrowserPane}">
+            <Button.ToolTip>
+                <ToolTip Content="Click to go reload this page" />
+            </Button.ToolTip>
+            <Image Source="{StaticResource Reload}" />
+        </Button>
         <TextBox x:Name="AddressBarTextBox"
                  Grid.Column="3"
+                 Tag="Type URL or search keywords here"
                  Text="{Binding AddressBarText, UpdateSourceTrigger=PropertyChanged}">
             <TextBox.InputBindings>
                 <KeyBinding Command="{Binding Go}"
@@ -47,12 +70,14 @@
             </TextBox.InputBindings>
         </TextBox>
         <Popup
+            Margin="0,-5,0,0"
             IsOpen="{Binding Suggestions.Count, Converter={x:Static converters:ObjectToBooleanConverter.Instance}, Mode=OneWay}"
             PlacementTarget="{Binding ElementName=AddressBarTextBox}"
             Placement="Bottom"
             Width="{Binding Path=ActualWidth, ElementName=AddressBarTextBox}"
             StaysOpen="False">
-            <ListBox ItemsSource="{Binding Suggestions}">
+            <ListBox ItemsSource="{Binding Suggestions}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding Go}"
@@ -61,14 +86,20 @@
                 </i:Interaction.Triggers>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding }" />
+                        <TextBlock Text="{Binding }"
+                                   TextTrimming="CharacterEllipsis" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Popup>
         <Button Grid.Column="4"
-                Content="Clear History"
-                Command="{Binding ClearHistory}" />
+                Style="{StaticResource IconButtons}"
+                Command="{Binding ClearHistory}">
+            <Button.ToolTip>
+                <ToolTip Content="Click to clear search history" />
+            </Button.ToolTip>
+            <Image Source="{StaticResource Trash}" />
+        </Button>
 
         <views:WelcomeView Grid.Row="1"
                            Grid.ColumnSpan="5"
