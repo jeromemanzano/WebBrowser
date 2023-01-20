@@ -32,7 +32,6 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Button Grid.Column="0"
@@ -103,16 +102,17 @@
             <Image Source="{StaticResource Trash}" />
         </Button>
 
-        <views:WelcomeView Grid.Row="1"
-                           Grid.ColumnSpan="5"
-                           Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}, ConverterParameter='!'}" />
-        <views:BrowserHistoryView Grid.Row="2"
-                                  Grid.ColumnSpan="5"
-                                  DataContext="{Binding BrowserHistory}"
-                                  Visibility="{Binding DataContext.BrowserAddress, RelativeSource={RelativeSource AncestorType=Window} , Converter={x:Static converters:ObjectToVisibilityConverter.Instance}, ConverterParameter='!'}" />
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="5"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Hidden">
+            <StackPanel>
+                <views:WelcomeView  Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}, ConverterParameter='!'}" />
+                <views:BrowserHistoryView DataContext="{Binding BrowserHistory}"
+                                          Visibility="{Binding DataContext.BrowserAddress, RelativeSource={RelativeSource AncestorType=Window} , Converter={x:Static converters:ObjectToVisibilityConverter.Instance}, ConverterParameter='!'}" />
+            </StackPanel>
+        </ScrollViewer>
         <cef:ChromiumWebBrowser x:Name="BrowserPane"
                                 Grid.Row="1"
-                                Grid.RowSpan="2"
                                 Grid.ColumnSpan="5"
                                 Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}}"
                                 Address="{Binding BrowserAddress, Mode=TwoWay}" />
