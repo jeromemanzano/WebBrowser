@@ -221,15 +221,98 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
         {
             ViewModel = new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
             var suggestions = new List<string> {"suggestion 1", "suggestion 2"};
+            var suggestions2 = new List<string> {"suggestion 3", "suggestion 4"};
+
+            var observable = scheduler.CreateColdObservable(
+                ReactiveTest.OnNext<IReadOnlyCollection<string>>(1, Enumerable.Empty<string>().ToList().AsReadOnly()),
+                ReactiveTest.OnNext<IReadOnlyCollection<string>>(TimeSpan.FromMilliseconds(500).Ticks, suggestions.AsReadOnly()),
+                ReactiveTest.OnNext<IReadOnlyCollection<string>>(TimeSpan.FromMilliseconds(1000).Ticks, suggestions2.AsReadOnly()));
+            
             _autoCompleteService
                 .Setup(service => service.GetSuggestions(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .Returns(Observable.Return(suggestions.AsReadOnly()));
+                .Returns(observable);
 
             ViewModel.AddressBarText = "test";
-            scheduler.AdvanceByMs(301);
-
+            
+            scheduler.AdvanceBy(TimeSpan.FromMilliseconds(300).Ticks);
+            CollectionAssert.IsEmpty(ViewModel.Suggestions);
+            
+            scheduler.AdvanceBy(TimeSpan.FromMilliseconds(501).Ticks);
             CollectionAssert.AreEqual(suggestions, ViewModel.Suggestions);
+            
+            scheduler.AdvanceBy(TimeSpan.FromMilliseconds(500).Ticks);
+            CollectionAssert.AreEqual(suggestions.Concat(suggestions2), ViewModel.Suggestions);
         });
+    }
+
+    [Test]
+    public void When_Go_Is_Executed_GetSuggestions_Result_Should_Not_Be_Assigned_To_Suggestions()
+    {
+        new TestScheduler().With(scheduler =>
+        {
+            ViewModel = new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            var suggestions = new List<string> {"suggestion 1", "suggestion 2"};
+
+            var observable = scheduler.CreateColdObservable(
+                ReactiveTest.OnNext<IReadOnlyCollection<string>>(1, Enumerable.Empty<string>().ToList().AsReadOnly()),
+                ReactiveTest.OnNext<IReadOnlyCollection<string>>(TimeSpan.FromMilliseconds(500).Ticks, suggestions.AsReadOnly()));
+            
+            _autoCompleteService
+                .Setup(service => service.GetSuggestions(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns(observable);
+
+            ViewModel.AddressBarText = "test";
+            
+            scheduler.AdvanceBy(TimeSpan.FromMilliseconds(300).Ticks);
+            CollectionAssert.IsEmpty(ViewModel.Suggestions);
+
+            // We execute go before the next suggestions in 500ms
+            ViewModel.Go.Execute().Subscribe();
+            
+            // Next GetSuggestions result shouldn't be assigned to Suggestions
+            scheduler.AdvanceBy(TimeSpan.FromMilliseconds(501).Ticks);
+            CollectionAssert.IsEmpty(ViewModel.Suggestions);
+        });
+    }
+
+    [Test]
+    public void When_AddressBarText_Changed_Previous_Cancellation_Token_Should_Be_Cancelled()
+    {
+        new TestScheduler().With(scheduler =>
+        {            
+            ViewModel = new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            var firstSearchTerm = "first search term";
+            var secondSearchTerm = "second search term";
+            var tokenDictionary = new Dictionary<string, CancellationToken>();
+            IObservable<IReadOnlyCollection<string>> CreateObservable(string searchTerm, CancellationToken token)
+            {
+                tokenDictionary.Add(searchTerm, token);
+                return Observable.Return(new List<string>());
+            }
+
+            _autoCompleteService
+                .Setup(service => service.GetSuggestions(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns(CreateObservable);
+
+            // When we change the address bar text, we should get a new cancellation token
+            ViewModel.AddressBarText = firstSearchTerm;
+            scheduler.AdvanceByMs(300);
+            var firstToken = tokenDictionary[firstSearchTerm];
+            Assert.IsNotNull(firstToken);
+            Assert.IsFalse(firstToken.IsCancellationRequested);
+
+            ViewModel.AddressBarText = secondSearchTerm;
+            scheduler.AdvanceByMs(300);
+            
+            // When we change the address bar text again, the previous token should be cancelled
+            Assert.IsTrue(firstToken.IsCancellationRequested);
+
+            // and we get a new cancellation token
+            var secondToken = tokenDictionary[secondSearchTerm];
+            Assert.IsNotNull(secondToken);
+            Assert.IsFalse(secondToken.IsCancellationRequested);
+        });
+
     }
 
     protected override MainViewModel CreateViewModel()
