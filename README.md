@@ -1,6 +1,7 @@
 # WebBrowser [![build, test and publish](https://github.com/jeromemanzano/WebBrowser/actions/workflows/build-test-publish.yml/badge.svg?branch=main)](https://github.com/jeromemanzano/WebBrowser/actions/workflows/build-test-publish.yml)
 
 This is a demo web browser that runs on Windows
+![webbrowser](https://user-images.githubusercontent.com/23254953/213837005-471c37b8-e452-43e9-bfeb-10ad7022c3f5.gif)
 
 ## Development setup
 To run/debug this app on your you need to have the following:
