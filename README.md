@@ -12,7 +12,7 @@ To run/debug this app on your you need to have the following:
 | :exclamation:  This is not signed so Windows will prompt you when you try to run it.   |
 |-----------------------------------------|
 
-If you would like to proceed, you can download the latest `x86` package [here](https://github.com/jeromemanzano/WebBrowser/releases/download/19/WebBrowser.WPF.exe). This is a self-contained single file Windows application so you don't need to install anything else. After downloading, just click on the `.exe` file. It will take a while on first attempt but subsequent run should be faster
+If you would like to proceed, you can download the latest `x86` package [here](https://github.com/jeromemanzano/WebBrowser/releases/latest). This is a self-contained single file Windows application so you don't need to install anything else. After downloading `WebBrowser.WPF.exe` file, click it to run. It will take a while on first attempt but subsequent run should be faster.
 
 ## Nuget Packages
 - [ReactiveUI](https://www.nuget.org/packages/ReactiveUI)
