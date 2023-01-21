@@ -9,7 +9,6 @@
                            xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
                            xmlns:views="clr-namespace:WebBrowser.WPF.Views"
                            xmlns:converters="clr-namespace:WebBrowser.WPF.Converters"
-                           xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                            mc:Ignorable="d"
                            Title="{Binding Title, ElementName=BrowserPane, FallbackValue='Web Browser'}" 
                            MinWidth="500"
@@ -61,7 +60,7 @@
         </Button>
         <TextBox x:Name="AddressBarTextBox"
                  Grid.Column="3"
-                 Tag="Type URL or search keywords here"
+                 PreviewKeyDown="OnTextBox_PreviewKeyDown"
                  Text="{Binding AddressBarText, UpdateSourceTrigger=PropertyChanged}">
             <TextBox.InputBindings>
                 <KeyBinding Command="{Binding Go}"
@@ -77,14 +76,15 @@
             Placement="Bottom"
             Width="{Binding Path=ActualWidth, ElementName=AddressBarTextBox}"
             StaysOpen="False">
-            <ListBox ItemsSource="{Binding Suggestions}"
+            <ListBox x:Name="SuggestionsListBox" 
+                     ItemsSource="{Binding Suggestions}"
+                     SelectedItem="{Binding SelectedSuggestion, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding Go}"
-                                               CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=ListBox}}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListBoxItem_OnPreviewMouseLeftButtonDown" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding }"
