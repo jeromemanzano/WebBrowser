@@ -25,7 +25,7 @@ public class MainViewModel : BaseViewModel
 
     [Reactive] public string AddressBarText { get; set; } // This is the text shown in the address bar
 
-    [Reactive] public string SelectedSuggestion { get; set; } // This is the text shown in the address bar
+    [Reactive] public string SelectedSuggestion { get; set; }
 
     public BrowserHistoryViewModel? BrowserHistory { get; }
 
