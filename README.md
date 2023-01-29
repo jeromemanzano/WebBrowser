@@ -1,5 +1,4 @@
-# WebBrowser [![build, test and publish](https://github.com/jeromemanzano/WebBrowser/actions/workflows/build-test-publish.yml/badge.svg?branch=main)](https://github.com/jeromemanzano/WebBrowser/actions/workflows/build-test-publish.yml)
-
+# WebBrowser [![build, test and publish](https://github.com/jeromemanzano/WebBrowser/actions/workflows/build-test-publish.yml/badge.svg?branch=main)](https://github.com/jeromemanzano/WebBrowser/actions/workflows/build-test-publish.yml) [![codecov](https://codecov.io/gh/jeromemanzano/WebBrowser/branch/main/graph/badge.svg?token=AZIZO82XAF)](https://codecov.io/gh/jeromemanzano/WebBrowser)
 This is a demo web browser that runs on Windows
 ![webbrowser](https://user-images.githubusercontent.com/23254953/213837005-471c37b8-e452-43e9-bfeb-10ad7022c3f5.gif)
 
