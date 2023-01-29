@@ -34,7 +34,10 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test /p:CollectCoverage=true /p:Exclude="[*]Splat.*" /p:CoverletOutputFormat=opencover --no-restore --verbosity normal
+
+    - name: Test Coverage
+      uses: codecov/codecov-action@v3
 
     # TODO: sign package before publishing
     - name: Publish
