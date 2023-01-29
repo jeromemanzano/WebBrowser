@@ -9,6 +9,7 @@
                            xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
                            xmlns:views="clr-namespace:WebBrowser.WPF.Views"
                            xmlns:converters="clr-namespace:WebBrowser.WPF.Converters"
+                           xmlns:controls="clr-namespace:WebBrowser.WPF.Controls"
                            mc:Ignorable="d"
                            Title="{Binding Title, ElementName=BrowserPane, FallbackValue='Web Browser'}" 
                            MinWidth="500"
@@ -115,6 +116,10 @@
                                 Grid.Row="1"
                                 Grid.ColumnSpan="5"
                                 Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}}"
-                                Address="{Binding BrowserAddress, Mode=TwoWay}" />
+                                Address="{Binding BrowserAddress, Mode=TwoWay}">
+            <cef:ChromiumWebBrowser.MenuHandler>
+                <controls:ContextMenuHandler />
+            </cef:ChromiumWebBrowser.MenuHandler>
+        </cef:ChromiumWebBrowser>
     </Grid>
 </reactiveUi:ReactiveWindow>
