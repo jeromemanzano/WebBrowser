@@ -12,6 +12,7 @@
                            xmlns:controls="clr-namespace:WebBrowser.WPF.Controls"
                            mc:Ignorable="d"
                            Title="{Binding Title, ElementName=BrowserPane, FallbackValue='Web Browser'}" 
+                           PreviewKeyDown="OnWindow_PreviewKeyDown"
                            MinWidth="500"
                            Height="450"
                            Width="800">

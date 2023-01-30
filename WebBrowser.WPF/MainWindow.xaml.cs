@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CefSharp.Wpf;
 using ReactiveUI;
 using Splat;
 using WebBrowser.ViewModels;
@@ -15,17 +16,19 @@ namespace WebBrowser.WPF
     {
         private readonly ListBox _suggestionsListBox;
         private readonly TextBox _addressBarTextBox;
-        
+        private readonly ChromiumWebBrowser _webBrowser;
+
         public MainWindow()
         {
             InitializeComponent();
             var viewModel = Locator.Current.GetService<MainViewModel>();
             DataContext = viewModel;
             ViewModel = viewModel;
-            _suggestionsListBox = (ListBox)FindName("SuggestionsListBox");
-            _addressBarTextBox = (TextBox)FindName("AddressBarTextBox");
+            _suggestionsListBox = (ListBox) FindName("SuggestionsListBox");
+            _addressBarTextBox = (TextBox) FindName("AddressBarTextBox");
+            _webBrowser = (ChromiumWebBrowser) FindName("BrowserPane");
         }
-        
+
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
@@ -47,7 +50,7 @@ namespace WebBrowser.WPF
             {
                 return;
             }
-            
+
             _addressBarTextBox.Text = _suggestionsListBox.SelectedItem.ToString()!;
             _addressBarTextBox.CaretIndex = _addressBarTextBox.Text.Length;
             e.Handled = true;
@@ -63,6 +66,25 @@ namespace WebBrowser.WPF
                 _addressBarTextBox.CaretIndex = _addressBarTextBox.Text.Length;
 
                 ViewModel.Go.Execute(suggestion).Subscribe();
+                e.Handled = true;
+            }
+        }
+
+        private void OnWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers is not ModifierKeys.Alt)
+            {
+                return;
+            }
+
+            if (e.SystemKey == Key.Left && _webBrowser.BackCommand.CanExecute(null))
+            {
+                _webBrowser.BackCommand.Execute(null);
+                e.Handled = true;
+            }
+            else if (e.SystemKey == Key.Right && _webBrowser.ForwardCommand.CanExecute(null))
+            {
+                _webBrowser.ForwardCommand.Execute(null);
                 e.Handled = true;
             }
         }
