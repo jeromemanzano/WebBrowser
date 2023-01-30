@@ -12,6 +12,7 @@
                            xmlns:controls="clr-namespace:WebBrowser.WPF.Controls"
                            mc:Ignorable="d"
                            Title="{Binding Title, ElementName=BrowserPane, FallbackValue='Web Browser'}" 
+                           PreviewKeyDown="OnWindow_PreviewKeyDown"
                            MinWidth="500"
                            Height="450"
                            Width="800">
@@ -22,6 +23,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding ReloadCommand, ElementName=BrowserPane}" />
+        <KeyBinding Modifiers="Control" Key="R" Command="{Binding ReloadCommand, ElementName=BrowserPane}" />
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
