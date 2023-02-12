@@ -33,6 +33,7 @@ namespace WebBrowser.WPF
         {
             SplatRegistrations.RegisterLazySingleton<MainViewModel>();
             SplatRegistrations.RegisterLazySingleton<BrowserHistoryViewModel>();
+            SplatRegistrations.Register<TabContentViewModel>();
         }
     }
 }

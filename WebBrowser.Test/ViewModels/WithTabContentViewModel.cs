@@ -11,7 +11,7 @@ using ReactiveUI.Testing;
 
 namespace WebBrowser.Test.ViewModels;
 
-public class WithMainViewModel : BaseViewModelTest<MainViewModel>
+public class WithMainViewModel : BaseViewModelTest<TabContentViewModel>
 {
     private Mock<IBrowserHistoryService> _browserHistoryService;
     private Mock<IAutoCompleteService> _autoCompleteService;
@@ -193,7 +193,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
     {
         new TestScheduler().With(scheduler =>
         {
-            ViewModel = new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
             _autoCompleteService
                 .Setup(service => service.GetSuggestions(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .Returns(Observable.Return(Enumerable.Empty<string>().ToList().AsReadOnly()));
@@ -219,7 +219,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
     {
         new TestScheduler().With(scheduler =>
         {
-            ViewModel = new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
             var suggestions = new List<string> {"suggestion 1", "suggestion 2"};
             var suggestions2 = new List<string> {"suggestion 3", "suggestion 4"};
 
@@ -250,7 +250,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
     {
         new TestScheduler().With(scheduler =>
         {
-            ViewModel = new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
             var suggestions = new List<string> {"suggestion 1", "suggestion 2"};
 
             var observable = scheduler.CreateColdObservable(
@@ -280,7 +280,7 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
     {
         new TestScheduler().With(scheduler =>
         {            
-            ViewModel = new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
             var firstSearchTerm = "first search term";
             var secondSearchTerm = "second search term";
             var tokenDictionary = new Dictionary<string, CancellationToken>();
@@ -315,10 +315,10 @@ public class WithMainViewModel : BaseViewModelTest<MainViewModel>
 
     }
 
-    protected override MainViewModel CreateViewModel()
+    protected override TabContentViewModel CreateViewModel()
     {
         _browserHistoryService = new Mock<IBrowserHistoryService>();
         _autoCompleteService = new Mock<IAutoCompleteService>();
-        return new MainViewModel(_browserHistoryService.Object, _autoCompleteService.Object);
+        return new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object);
     }
 }
