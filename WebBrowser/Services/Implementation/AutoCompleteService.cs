@@ -51,6 +51,7 @@ public class AutoCompleteService : IAutoCompleteService, IEnableLogger
             return entity.Url.Contains(searchTerm) ? (entity.Url, entity.UtcTimeStamp) : null;
         }
         
+        
         return entity.Query.Contains(searchTerm) ? (entity.Query, entity.UtcTimeStamp) : null;
     }
 }
