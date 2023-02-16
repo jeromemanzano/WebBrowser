@@ -16,12 +16,21 @@ namespace WebBrowser.ViewModels;
 public class TabContentViewModel : BaseViewModel
 {
     private readonly IBrowserHistoryService _historyService;
+    private readonly ITabService _tabService;
     private CancellationTokenSource _cts;
     public ReactiveCommand<string, Unit> Go { get; }
     public ReactiveCommand<Unit, Unit> ClearHistory { get; }
+    public ReactiveCommand<Unit, Unit> RemoveTab { get; }
+
     public ObservableCollection<string> Suggestions { get; } = new();
     
-    [Reactive] public string BrowserAddress { get; set; } // This is the address that will be displayed in the browser
+    [Reactive] public bool IsActiveTab { get; set; }
+
+    [Reactive] public string BrowserTitle { get; set; }
+
+    [Reactive] public string? Title { get; set; }
+    
+    [Reactive] public string? BrowserAddress { get; set; } // This is the address that will be displayed in the browser
 
     [Reactive] public string AddressBarText { get; set; } // This is the text shown in the address bar
 
@@ -31,13 +40,16 @@ public class TabContentViewModel : BaseViewModel
 
     public TabContentViewModel(IBrowserHistoryService browserHistoryService,
         IAutoCompleteService autoCompleteService,
+        ITabService tabService,
         IScheduler? taskPoolScheduler = null)
     {
         _historyService = browserHistoryService;
+        _tabService = tabService;
         BrowserHistory = Locator.Current.GetService<BrowserHistoryViewModel>();
-
+        
         var canGo = this.WhenAnyValue(x => x.AddressBarText, x => !string.IsNullOrWhiteSpace(x));
         Go = ReactiveCommand.Create<string>(GoImpl, canGo);
+        RemoveTab = ReactiveCommand.Create(RemoveTabImpl);
 
         var canClear = BrowserHistory
             ?.History
@@ -51,8 +63,19 @@ public class TabContentViewModel : BaseViewModel
             .SelectMany(HandleNewUrlAsync)
             .Subscribe();
 
+        this.WhenAnyValue(x => x.BrowserTitle)
+            .WhereNotNull()
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Subscribe(x => Title = BrowserTitle);
+            
+        this.WhenAnyValue(x => x.IsActiveTab)
+            .Where(isActiveTab => isActiveTab && string.IsNullOrWhiteSpace(BrowserAddress))
+            .Take(1)
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Subscribe(_ => Title = "New tab") ;
+
         this.WhenAnyValue(x => x.AddressBarText)
-            .Where(searchTerm => searchTerm != SelectedSuggestion)
+            .Where(searchTerm => searchTerm != SelectedSuggestion && IsActiveTab)
             .Do(_ => Suggestions.Clear())
             .Where(searchTerm => searchTerm != BrowserAddress)
             .Throttle(TimeSpan.FromMilliseconds(300), taskPoolScheduler ?? RxApp.TaskpoolScheduler) //based on average reaction time here https://humanbenchmark.com/tests/reactiontime/statistics
@@ -70,14 +93,19 @@ public class TabContentViewModel : BaseViewModel
             .Subscribe();
     }
 
+    private void RemoveTabImpl()
+    {
+        _tabService.RemoveTab(this);
+    }
+
     private async Task ClearHistoryImplAsync()
     {
         await _historyService.DeleteAllAsync();
     }
 
-    private async Task<Unit> HandleNewUrlAsync(string url)
+    private async Task<Unit> HandleNewUrlAsync(string? url)
     {
-        if (AddressBarText.IsValidUrl())
+        if (AddressBarText.IsValidUrl() || !IsActiveTab)
         {
             await _historyService.AddWebsiteToHistoryAsync(url);
         }

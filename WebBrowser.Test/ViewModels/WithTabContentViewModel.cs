@@ -11,10 +11,11 @@ using ReactiveUI.Testing;
 
 namespace WebBrowser.Test.ViewModels;
 
-public class WithMainViewModel : BaseViewModelTest<TabContentViewModel>
+public class WithTabContentViewModel : BaseViewModelTest<TabContentViewModel>
 {
     private Mock<IBrowserHistoryService> _browserHistoryService;
     private Mock<IAutoCompleteService> _autoCompleteService;
+    private Mock<ITabService> _tabService;
 
     [TestCase(null, false)]
     [TestCase("", false)]
@@ -134,6 +135,16 @@ public class WithMainViewModel : BaseViewModelTest<TabContentViewModel>
     }
     
     [Test]
+    public void When_BrowserAddress_Changed_And_Not_A_Valid_Url_And_Not_IsActiveTab_It_Should_Call_IBrowserHistoryService_AddWebsiteToHistory_With_BrowserAddress_Once()
+    {
+        ViewModel.IsActiveTab = false;
+        ViewModel.BrowserAddress = "this is not a valid url";
+        
+        _browserHistoryService
+            .Verify(service => service.AddWebsiteToHistoryAsync(ViewModel.BrowserAddress), Times.Once);
+    }
+    
+    [Test]
     public void When_BrowserAddress_Changed_And_AddressBarText_Is_Not_Valid_Url_It_Should_Not_Call_IBrowserHistoryService_AddWebsiteToHistory_With_BrowserAddress()
     {
         ViewModel.AddressBarText = "this is not a valid url";
@@ -193,7 +204,8 @@ public class WithMainViewModel : BaseViewModelTest<TabContentViewModel>
     {
         new TestScheduler().With(scheduler =>
         {
-            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, _tabService.Object, scheduler);
+            ViewModel.IsActiveTab = true;
             _autoCompleteService
                 .Setup(service => service.GetSuggestions(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .Returns(Observable.Return(Enumerable.Empty<string>().ToList().AsReadOnly()));
@@ -219,7 +231,8 @@ public class WithMainViewModel : BaseViewModelTest<TabContentViewModel>
     {
         new TestScheduler().With(scheduler =>
         {
-            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, _tabService.Object, scheduler);
+            ViewModel.IsActiveTab = true;
             var suggestions = new List<string> {"suggestion 1", "suggestion 2"};
             var suggestions2 = new List<string> {"suggestion 3", "suggestion 4"};
 
@@ -250,7 +263,7 @@ public class WithMainViewModel : BaseViewModelTest<TabContentViewModel>
     {
         new TestScheduler().With(scheduler =>
         {
-            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, _tabService.Object, scheduler);
             var suggestions = new List<string> {"suggestion 1", "suggestion 2"};
 
             var observable = scheduler.CreateColdObservable(
@@ -280,7 +293,8 @@ public class WithMainViewModel : BaseViewModelTest<TabContentViewModel>
     {
         new TestScheduler().With(scheduler =>
         {            
-            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, scheduler);
+            ViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, _tabService.Object, scheduler);
+            ViewModel.IsActiveTab = true;
             var firstSearchTerm = "first search term";
             var secondSearchTerm = "second search term";
             var tokenDictionary = new Dictionary<string, CancellationToken>();
@@ -312,13 +326,38 @@ public class WithMainViewModel : BaseViewModelTest<TabContentViewModel>
             Assert.IsNotNull(secondToken);
             Assert.IsFalse(secondToken.IsCancellationRequested);
         });
-
+    }
+    
+    [Test]
+    public void RemoveTab_Should_Call_TabService_RemoveTab()
+    {
+        ViewModel.RemoveTab.Execute().Subscribe();
+        
+        _tabService.Verify(service => service.RemoveTab(ViewModel), Times.Once);
+    }
+    
+    [Test]
+    public void When_IsActiveTab_Is_True_And_BrowserAddress_Is_Null_Should_Update_Title_To_NewTab()
+    {
+        Assert.That(ViewModel.BrowserAddress, Is.Null);
+        Assert.That(ViewModel.Title, Is.EqualTo("New tab"));
+    }
+    
+    [Test]
+    public void When_BrowserTitle_Is_Changed_Should_Update_Title()
+    {
+        var updatedTitle = "updated title";
+        ViewModel.BrowserTitle = updatedTitle;
+        Assert.That(ViewModel.Title, Is.EqualTo(updatedTitle));
     }
 
     protected override TabContentViewModel CreateViewModel()
     {
         _browserHistoryService = new Mock<IBrowserHistoryService>();
         _autoCompleteService = new Mock<IAutoCompleteService>();
-        return new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object);
+        _tabService = new Mock<ITabService>();
+        var tabContentViewModel = new TabContentViewModel(_browserHistoryService.Object, _autoCompleteService.Object, _tabService.Object);
+        tabContentViewModel.IsActiveTab = true;
+        return tabContentViewModel;
     }
 }
