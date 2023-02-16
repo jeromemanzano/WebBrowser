@@ -27,6 +27,7 @@ namespace WebBrowser.WPF
             SplatRegistrations.RegisterLazySingleton<IDuckDuckGoApiService, DuckDuckGoApiService>();
             SplatRegistrations.RegisterLazySingleton<IAutoCompleteService, AutoCompleteService>();
             SplatRegistrations.RegisterLazySingleton<IRepositoryService<HistoryEntity>, RepositoryService<HistoryEntity>>();
+            SplatRegistrations.RegisterLazySingleton<ITabService, TabService>();
         }
 
         private void RegisterViewModels()
