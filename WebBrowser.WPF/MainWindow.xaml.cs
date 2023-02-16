@@ -1,5 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using ReactiveUI;
+using Splat;
+using WebBrowser.Services;
 using WebBrowser.ViewModels;
 
 namespace WebBrowser.WPF
@@ -12,6 +17,20 @@ namespace WebBrowser.WPF
         public MainWindow()
         {
             InitializeComponent();
+            var viewModel = Locator.Current.GetService<MainViewModel>();
+            DataContext = viewModel;
+
+            var tabService = Locator.Current.GetService<ITabService>();
+            this.WhenActivated(disposable =>
+            {
+                tabService.WhenAnyValue(x => x.Tabs.Count)
+                    .Where(tabsCount => tabsCount < 1)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Do(_ => Close())
+                    .Subscribe()
+                    .DisposeWith(disposable);
+            });
+            
         }
         
         protected override void OnClosing(CancelEventArgs e)

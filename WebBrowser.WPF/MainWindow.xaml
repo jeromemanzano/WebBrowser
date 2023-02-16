@@ -8,16 +8,40 @@
                            xmlns:viewModels="clr-namespace:WebBrowser.ViewModels;assembly=WebBrowser"
                            xmlns:views="clr-namespace:WebBrowser.WPF.Views"
                            mc:Ignorable="d"
-                           Title="{Binding Title, ElementName=BrowserPane, FallbackValue='Web Browser'}" 
+                           Title="Web Browser" 
                            MinWidth="500"
                            Height="450"
                            Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/MainWindow.xaml" />
+                <ResourceDictionary Source="/Styles/TabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="TabContent" DataType="{x:Type viewModels:TabContentViewModel}">
+                <views:TabContentView DataContext="{Binding }" ViewModel="{Binding }" />
+            </DataTemplate>
+            <DataTemplate x:Key="TabHeader" DataType="{x:Type viewModels:TabContentViewModel}">
+                    <TextBlock x:Name="TitleTextBlock"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               TextTrimming="CharacterEllipsis">
+                        <TextBlock.Text>
+                            <PriorityBinding>
+                                <Binding Path="Title" />
+                                <Binding Path="BrowserAddress" />
+                            </PriorityBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+            </DataTemplate>
         </ResourceDictionary>
     </Window.Resources>
-    <views:TabContentView />
+    <Grid>
+        <TabControl ItemsSource="{Binding TabService.Tabs}"
+                    ContentTemplate="{StaticResource TabContent}"
+                    ItemTemplate="{StaticResource TabHeader}"
+                    SelectedItem="{Binding TabService.SelectedTab}"
+                    SelectedIndex="{Binding TabService.SelectedIndex}">
+        </TabControl>
+    </Grid>
 </reactiveUi:ReactiveWindow>
