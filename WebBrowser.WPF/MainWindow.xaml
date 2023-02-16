@@ -6,125 +6,42 @@
                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                            xmlns:reactiveUi="http://reactiveui.net"
                            xmlns:viewModels="clr-namespace:WebBrowser.ViewModels;assembly=WebBrowser"
-                           xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
                            xmlns:views="clr-namespace:WebBrowser.WPF.Views"
-                           xmlns:converters="clr-namespace:WebBrowser.WPF.Converters"
-                           xmlns:controls="clr-namespace:WebBrowser.WPF.Controls"
                            mc:Ignorable="d"
-                           Title="{Binding Title, ElementName=BrowserPane, FallbackValue='Web Browser'}" 
-                           PreviewKeyDown="OnWindow_PreviewKeyDown"
+                           Title="Web Browser" 
                            MinWidth="500"
                            Height="450"
                            Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/MainWindow.xaml" />
+                <ResourceDictionary Source="/Styles/TabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="TabContent" DataType="{x:Type viewModels:TabContentViewModel}">
+                <views:TabContentView DataContext="{Binding }" ViewModel="{Binding }" />
+            </DataTemplate>
+            <DataTemplate x:Key="TabHeader" DataType="{x:Type viewModels:TabContentViewModel}">
+                <TextBlock x:Name="TitleTextBlock"
+                           TextAlignment="Center"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           TextTrimming="CharacterEllipsis">
+                    <TextBlock.Text>
+                        <PriorityBinding>
+                            <Binding Path="Title" />
+                            <Binding Path="BrowserAddress" />
+                        </PriorityBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DataTemplate>
         </ResourceDictionary>
     </Window.Resources>
-    <Window.InputBindings>
-        <KeyBinding Key="F5" Command="{Binding ReloadCommand, ElementName=BrowserPane}" />
-        <KeyBinding Modifiers="Control" Key="R" Command="{Binding ReloadCommand, ElementName=BrowserPane}" />
-    </Window.InputBindings>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Button Grid.Column="0"
-                Style="{StaticResource IconButtons}"
-                Command="{Binding BackCommand, ElementName=BrowserPane}">
-            <Button.ToolTip>
-                <ToolTip Content="Click to go back" />
-            </Button.ToolTip>
-            <Image Source="{StaticResource ArrowLeft}" />
-        </Button>
-        <Button Grid.Column="1"
-                Style="{StaticResource IconButtons}"
-                Command="{Binding ForwardCommand, ElementName=BrowserPane}">
-            <Button.ToolTip>
-                <ToolTip Content="Click to go forward" />
-            </Button.ToolTip>
-            <Image Source="{StaticResource ArrowRight}" />
-        </Button>
-        <Button Grid.Column="2"
-                Style="{StaticResource IconButtons}"
-                IsEnabled="{Binding Title, ElementName=BrowserPane, Converter={x:Static converters:ObjectToBooleanConverter.Instance}}"
-                Command="{Binding ReloadCommand, ElementName=BrowserPane}">
-            <Button.ToolTip>
-                <ToolTip Content="Click to go reload this page" />
-            </Button.ToolTip>
-            <Image Source="{StaticResource Reload}" />
-        </Button>
-        <TextBox x:Name="AddressBarTextBox"
-                 Grid.Column="3"
-                 PreviewKeyDown="OnTextBox_PreviewKeyDown"
-                 Text="{Binding AddressBarText, UpdateSourceTrigger=PropertyChanged}">
-            <TextBox.InputBindings>
-                <KeyBinding Command="{Binding Go}"
-                            CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType=TextBox}}"
-                            Key="Enter">
-                </KeyBinding>
-            </TextBox.InputBindings>
-        </TextBox>
-        <Popup
-            Margin="0,-5,0,0"
-            IsOpen="{Binding Suggestions.Count, Converter={x:Static converters:ObjectToBooleanConverter.Instance}, Mode=OneWay}"
-            PlacementTarget="{Binding ElementName=AddressBarTextBox}"
-            Placement="Bottom"
-            Width="{Binding Path=ActualWidth, ElementName=AddressBarTextBox}"
-            StaysOpen="False">
-            <ListBox x:Name="SuggestionsListBox" 
-                     ItemsSource="{Binding Suggestions}"
-                     SelectedItem="{Binding SelectedSuggestion, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListBoxItem_OnPreviewMouseLeftButtonDown" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding }"
-                                   TextTrimming="CharacterEllipsis" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Popup>
-        <Button Grid.Column="4"
-                Style="{StaticResource IconButtons}"
-                Command="{Binding ClearHistory}">
-            <Button.ToolTip>
-                <ToolTip Content="Click to clear search history" />
-            </Button.ToolTip>
-            <Image Source="{StaticResource Trash}" />
-        </Button>
-
-        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="5"
-                      HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Hidden">
-            <StackPanel>
-                <views:WelcomeView  Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}, ConverterParameter='!'}" />
-                <views:BrowserHistoryView DataContext="{Binding BrowserHistory}"
-                                          Visibility="{Binding DataContext.BrowserAddress, RelativeSource={RelativeSource AncestorType=Window} , Converter={x:Static converters:ObjectToVisibilityConverter.Instance}, ConverterParameter='!'}" />
-            </StackPanel>
-        </ScrollViewer>
-        <cef:ChromiumWebBrowser x:Name="BrowserPane"
-                                Grid.Row="1"
-                                Grid.ColumnSpan="5"
-                                Visibility="{Binding BrowserAddress, Converter={x:Static converters:ObjectToVisibilityConverter.Instance}}"
-                                Address="{Binding BrowserAddress, Mode=TwoWay}">
-            <cef:ChromiumWebBrowser.MenuHandler>
-                <controls:ContextMenuHandler />
-            </cef:ChromiumWebBrowser.MenuHandler>
-        </cef:ChromiumWebBrowser>
+        <TabControl ItemsSource="{Binding TabService.Tabs}"
+                    ContentTemplate="{StaticResource TabContent}"
+                    ItemTemplate="{StaticResource TabHeader}"
+                    SelectedItem="{Binding TabService.SelectedTab}"
+                    SelectedIndex="{Binding TabService.SelectedIndex}">
+        </TabControl>
     </Grid>
 </reactiveUi:ReactiveWindow>

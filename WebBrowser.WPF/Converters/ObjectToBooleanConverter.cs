@@ -28,9 +28,9 @@ public class ObjectToBooleanConverter : BaseValueConverter<ObjectToBooleanConver
     {
         bool? boolValue = null;
 
-        if (value is string stringValue && !string.IsNullOrEmpty(stringValue))
+        if (value is string stringValue)
         {
-            boolValue = true;
+            boolValue = !string.IsNullOrEmpty(stringValue);
         }
         else if (value is int intValue)
         {

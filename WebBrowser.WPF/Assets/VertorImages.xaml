@@ -109,4 +109,26 @@
       </DrawingGroup>
     </DrawingImage.Drawing>
   </DrawingImage>
+  <DrawingImage x:Key="Plus">
+    <DrawingImage.Drawing>
+      <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+        <GeometryDrawing>
+          <GeometryDrawing.Pen>
+            <Pen Brush="#FFFFFF" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+          </GeometryDrawing.Pen>
+          <GeometryDrawing.Geometry>
+            <LineGeometry StartPoint="12,5" EndPoint="12,19" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+        <GeometryDrawing>
+          <GeometryDrawing.Pen>
+            <Pen Brush="#FFFFFF" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+          </GeometryDrawing.Pen>
+          <GeometryDrawing.Geometry>
+            <LineGeometry StartPoint="5,12" EndPoint="19,12" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+      </DrawingGroup>
+    </DrawingImage.Drawing>
+  </DrawingImage>
 </ResourceDictionary>
