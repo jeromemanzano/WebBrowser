@@ -1,0 +1,102 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:WebBrowser.Avalonia.Controls"
+             xmlns:views="clr-namespace:WebBrowser.Avalonia.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WebBrowser.Avalonia.Views.TabContentView">
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Buttons.xaml"></StyleInclude>
+    </UserControl.Styles>
+    <Grid Background="{StaticResource ActiveControlBackgroundBrushKey}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button Grid.Column="0"
+                ToolTip.Tip="Click to go back"
+                Classes="IconButtons"
+                Command="{Binding BackCommand, ElementName=BrowserPane}">
+            <Image Source="{StaticResource ArrowLeft}" />
+        </Button>
+        <Button Grid.Column="1"
+                Classes="IconButtons"
+                ToolTip.Tip="Click to go forward"
+                Command="{Binding #BrowserPane.ForwardCommand}">
+            <Image Source="{StaticResource ArrowRight}" />
+        </Button>
+        <Button Grid.Column="2"
+                Classes="IconButtons"
+                IsEnabled="{Binding Title, ElementName=BrowserPane, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                ToolTip.Tip="Click to go reload this page"
+                Command="{Binding #BrowserPane.ReloadCommand}">
+            <Image Source="{StaticResource Reload}" />
+        </Button>
+
+        <TextBox x:Name="AddressBarTextBox"
+                 Grid.Column="3"
+                 Height="30"
+                 Text="{Binding AddressBarText}">
+            <TextBox.KeyBindings>
+                <KeyBinding Command="{Binding Go}"
+                            CommandParameter="{Binding $self.Text}"
+                            Gesture="Enter">
+                </KeyBinding>
+            </TextBox.KeyBindings>
+        </TextBox>
+        <Popup Margin="0,-5,0,0"
+               IsOpen="{Binding Suggestions.Count, Converter={x:Static DefaultValueConverter.Instance}, Mode=OneWay}"
+               PlacementTarget="{Binding ElementName=AddressBarTextBox}"
+               Width="{Binding #AddressBarTextBox.Bounds.Width}"
+               PlacementAnchor="Bottom"
+               IsLightDismissEnabled="True">
+            <ListBox x:Name="SuggestionsListBox"
+                     Items="{Binding Suggestions}"
+                     SelectedItem="{Binding SelectedSuggestion, Mode=OneWayToSource}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <Interaction.Behaviors>
+                    <EventTriggerBehavior EventName="Tapped">
+                        <InvokeCommandAction Command="{Binding Go}"
+                                             CommandParameter="{Binding SelectedSuggestion}" />
+                    </EventTriggerBehavior>
+                </Interaction.Behaviors>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }"
+                                   TextTrimming="CharacterEllipsis" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Popup>
+        <Button Grid.Column="4"
+                Classes="IconButtons"
+                ToolTip.Tip="Click to clear search history"
+                Command="{Binding ClearHistory}">
+            <Image Source="{StaticResource Trash}" />
+        </Button>
+
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="5"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Hidden">
+            <StackPanel>
+                <views:WelcomeView IsVisible="{Binding BrowserAddress, Converter={x:Static ObjectConverters.IsNull}}" />
+                <views:BrowserHistoryView IsVisible="{Binding BrowserAddress, Converter={x:Static ObjectConverters.IsNull}}"
+                                          DataContext="{Binding BrowserHistory}" />
+            </StackPanel>
+        </ScrollViewer>
+        <controls:BrowserNativeControlHost x:Name="BrowserPane"
+                                           Title="{Binding BrowserTitle, Mode=OneWayToSource}"
+                                           IsVisible="{Binding BrowserAddress, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                           Address="{Binding BrowserAddress}"
+                                           Grid.Row="1"
+                                           Grid.ColumnSpan="5" />
+    </Grid>
+</UserControl>
