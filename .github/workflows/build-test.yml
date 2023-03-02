@@ -13,7 +13,7 @@ env:
   TEST_PROJECT_PATH: WebBrowser.Test/WebBrowser.Test.csproj
 
 jobs:
-  build-test-publish:
+  build-test:
     runs-on: windows-latest
 
     steps:

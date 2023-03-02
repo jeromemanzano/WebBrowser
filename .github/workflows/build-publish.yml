@@ -1,4 +1,4 @@
-name: build and publish WPF
+name: build and publish
 
 on:
   push:
@@ -13,8 +13,9 @@ env:
   WPF_PROJECT_PATH: WebBrowser.WPF/WebBrowser.WPF.csproj
 
 jobs:
-  build-test-publish:
-    permissions: write-all
+  build-publish-wpf:
+    permissions:
+      contents: write
 
     runs-on: windows-latest
 
@@ -47,7 +48,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.run_number }}
-        release_name: ${{ ( github.event_name == 'pull_request' && 'PR-Build' ) || 'Release' }} ${{ github.run_number }}
+        release_name: ${{ ( github.event_name == 'pull_request' && 'PR-Build-WPF' ) || 'Release-WPF' }} ${{ github.run_number }}
 
     - name: Upload
       uses: csexton/release-asset-action@v2
