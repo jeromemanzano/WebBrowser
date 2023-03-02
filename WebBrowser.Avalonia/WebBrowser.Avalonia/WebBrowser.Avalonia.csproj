@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0-macOS</TargetFramework>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <RuntimeIdentifier>osx-arm64</RuntimeIdentifier>
+        <SelfContained>true</SelfContained>
+        <Configurations>Debug;Release;Test-Release</Configurations>
+        <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.1.93">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\WebBrowser.macOSX\WebBrowser.macOSX.csproj" />
+        <ProjectReference Include="..\..\WebBrowser.UI.Controls\WebBrowser.UI.Controls.csproj" />
+        <ProjectReference Include="..\..\WebBrowser\WebBrowser.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="**\*.xaml.cs">
+            <DependentUpon>%(Filename)</DependentUpon>
+        </Compile>
+        <AdditionalFiles Include="**\*.xaml" />
+        <AvaloniaResource Include="**\*.xaml" Exclude="Assets\*.xaml">
+            <SubType>Designer</SubType>
+        </AvaloniaResource>
+        <AvaloniaResource Include="Assets\*" />
+    </ItemGroup>
+</Project>

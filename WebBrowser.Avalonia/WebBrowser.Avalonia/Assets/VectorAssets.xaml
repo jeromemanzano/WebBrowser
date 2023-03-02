@@ -1,0 +1,109 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <DrawingImage x:Key="ArrowLeft">
+    <DrawingImage.Drawing>
+      <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+        <DrawingGroup Opacity="1">
+          <DrawingGroup Opacity="1" Transform="1,0,0,1,-580,-3436">
+            <DrawingGroup Opacity="1" Transform="1,0,0,1,100,3378">
+              <DrawingGroup Opacity="1" Transform="1,0,0,1,476,54">
+                <DrawingGroup Opacity="1">
+                  <GeometryDrawing Brush="{StaticResource ControlTextBrushKey}" Geometry="F0 M24,24Z M0,0z M19,11L7.83,11 12.71,6.12C13.1,5.73 13.1,5.09 12.71,4.7 12.32,4.31 11.69,4.31 11.3,4.7L4.71,11.29C4.32,11.68,4.32,12.31,4.71,12.7L11.3,19.29C11.69,19.68 12.32,19.68 12.71,19.29 13.1,18.9 13.1,18.27 12.71,17.88L7.83,13 19,13C19.55,13 20,12.55 20,12 20,11.45 19.55,11 19,11z" />
+                </DrawingGroup>
+              </DrawingGroup>
+            </DrawingGroup>
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingGroup>
+    </DrawingImage.Drawing>
+  </DrawingImage>
+  <DrawingImage x:Key="ArrowRight">
+    <DrawingImage.Drawing>
+      <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+        <DrawingGroup.Transform>
+          <RotateTransform Angle="180" />
+        </DrawingGroup.Transform>
+        <DrawingGroup Opacity="1">
+          <DrawingGroup Opacity="1" Transform="1,0,0,1,-580,-3436">
+            <DrawingGroup Opacity="1" Transform="1,0,0,1,100,3378">
+              <DrawingGroup Opacity="1" Transform="1,0,0,1,476,54">
+                <DrawingGroup Opacity="1">
+                  <GeometryDrawing Brush="{StaticResource ControlTextBrushKey}" Geometry="F0 M24,24z M0,0z M19,11L7.83,11 12.71,6.12C13.1,5.73 13.1,5.09 12.71,4.7 12.32,4.31 11.69,4.31 11.3,4.7L4.71,11.29C4.32,11.68,4.32,12.31,4.71,12.7L11.3,19.29C11.69,19.68 12.32,19.68 12.71,19.29 13.1,18.9 13.1,18.27 12.71,17.88L7.83,13 19,13C19.55,13 20,12.55 20,12 20,11.45 19.55,11 19,11z" />
+                </DrawingGroup>
+              </DrawingGroup>
+            </DrawingGroup>
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingGroup>
+    </DrawingImage.Drawing>
+  </DrawingImage>
+  <DrawingImage x:Key="XMark">
+    <DrawingImage.Drawing>
+      <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+        <GeometryDrawing>
+          <GeometryDrawing.Pen>
+            <Pen Brush="{StaticResource ControlTextBrushKey}" Thickness="2" LineCap="Round" LineJoin="Round" />
+          </GeometryDrawing.Pen>
+          <GeometryDrawing.Geometry>
+            <LineGeometry StartPoint="18,6" EndPoint="6,18" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+        <GeometryDrawing>
+          <GeometryDrawing.Pen>
+            <Pen Brush="{StaticResource ControlTextBrushKey}" Thickness="2" LineCap="Round" LineJoin="Round" />
+          </GeometryDrawing.Pen>
+          <GeometryDrawing.Geometry>
+            <LineGeometry StartPoint="6,6" EndPoint="18,18" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+      </DrawingGroup>
+    </DrawingImage.Drawing>
+  </DrawingImage>
+  <DrawingImage x:Key="Trash">
+    <DrawingImage.Drawing>
+      <DrawingGroup ClipGeometry="M0,0 V438.529 H438.529 V0 H0 Z">
+        <DrawingGroup Opacity="1">
+          <DrawingGroup Opacity="1">
+            <GeometryDrawing Brush="{StaticResource ControlTextBrushKey}" Geometry="F1 M438.529,438.529z M0,0z M417.689,75.654C415.978,73.945,413.788,73.086,411.126,73.086L322.902,73.086 302.917,25.41C300.063,18.366 294.923,12.37 287.504,7.421 280.078,2.473 272.556,0 264.945,0L173.582,0C165.971,0 158.451,2.473 151.028,7.421 143.604,12.37 138.465,18.365 135.609,25.41L115.624,73.086 27.404,73.086C24.737,73.086 22.551,73.945 20.837,75.654 19.128,77.367 18.269,79.557 18.269,82.221L18.269,100.495C18.269,103.159 19.124,105.349 20.837,107.059 22.551,108.771 24.741,109.627 27.404,109.627L54.81,109.627 54.81,381.427C54.81,397.23 59.283,410.693 68.228,421.825 77.175,432.964 87.929,438.528 100.492,438.528L338.034,438.528C350.6,438.528 361.353,432.772 370.299,421.26 379.244,409.74 383.714,396.086 383.714,380.289L383.714,109.627 411.125,109.627C413.787,109.627 415.978,108.771 417.688,107.059 419.396,105.35 420.258,103.159 420.258,100.495L420.258,82.221C420.26,79.557,419.397,77.367,417.689,75.654z M169.301,39.678C170.632,37.966,172.251,36.916,174.154,36.538L264.658,36.538C266.561,36.919,268.183,37.968,269.512,39.678L283.221,73.082 155.311,73.082 169.301,39.678z M347.173,380.291C347.173,384.477 346.509,388.333 345.174,391.852 343.84,395.37 342.457,397.94 341.033,399.558 339.602,401.18 338.61,401.985 338.035,401.985L100.493,401.985C99.922,401.985 98.928,401.18 97.497,399.558 96.068,397.94 94.687,395.37 93.354,391.852 92.023,388.333 91.357,384.473 91.357,380.291L91.357,109.627 347.172,109.627 347.172,380.291z" />
+            <GeometryDrawing Brush="{StaticResource ControlTextBrushKey}" Geometry="F1 M438.529,438.529z M0,0z M137.04,347.172L155.311,347.172C157.978,347.172 160.169,346.317 161.878,344.605 163.587,342.887 164.446,340.704 164.446,338.035L164.446,173.581C164.446,170.918 163.587,168.728 161.878,167.014 160.164,165.305 157.979,164.449 155.311,164.449L137.04,164.449C134.373,164.449 132.186,165.304 130.473,167.014 128.762,168.728 127.905,170.918 127.905,173.581L127.905,338.035C127.905,340.704 128.759,342.888 130.473,344.605 132.186,346.316 134.373,347.172 137.04,347.172z" />
+            <GeometryDrawing Brush="{StaticResource ControlTextBrushKey}" Geometry="F1 M438.529,438.529z M0,0z M210.129,347.172L228.4,347.172C231.066,347.172 233.256,346.317 234.964,344.605 236.682,342.887 237.533,340.704 237.533,338.035L237.533,173.581C237.533,170.918 236.681,168.728 234.964,167.014 233.256,165.305 231.066,164.449 228.4,164.449L210.129,164.449C207.465,164.449 205.275,165.304 203.562,167.014 201.848,168.728 200.994,170.918 200.994,173.581L200.994,338.035C200.994,340.704 201.848,342.888 203.562,344.605 205.274,346.316 207.465,347.172 210.129,347.172z" />
+            <GeometryDrawing Brush="{StaticResource ControlTextBrushKey}" Geometry="F1 M438.529,438.529z M0,0z M283.22,347.172L301.488,347.172C304.157,347.172 306.347,346.317 308.058,344.605 309.769,342.887 310.62,340.704 310.62,338.035L310.62,173.581C310.62,170.918 309.768,168.728 308.058,167.014 306.347,165.305 304.157,164.449 301.488,164.449L283.22,164.449C280.55,164.449 278.367,165.304 276.649,167.014 274.938,168.728 274.083,170.918 274.083,173.581L274.083,338.035C274.083,340.704 274.938,342.888 276.649,344.605 278.367,346.316 280.55,347.172 283.22,347.172z" />
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingGroup>
+    </DrawingImage.Drawing>
+  </DrawingImage>
+  <DrawingImage x:Key="Reload">
+    <DrawingImage.Drawing>
+      <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+        <GeometryDrawing Geometry="F1 M24,24z M0,0z M21,10C21,10 18.995,7.26822 17.3662,5.63824 15.7373,4.00827 13.4864,3 11,3 6.02944,3 2,7.02944 2,12 2,16.9706 6.02944,21 11,21 15.1031,21 18.5649,18.2543 19.6482,14.5 M21,10L21,4 M21,10L15,10">
+          <GeometryDrawing.Pen>
+            <Pen Brush="{StaticResource ControlTextBrushKey}" Thickness="2.5" LineCap="Round" LineJoin="Round" MiterLimit="1" />
+          </GeometryDrawing.Pen>
+        </GeometryDrawing>
+      </DrawingGroup>
+    </DrawingImage.Drawing>
+  </DrawingImage>
+  <DrawingImage x:Key="Plus">
+    <DrawingImage.Drawing>
+      <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+        <GeometryDrawing>
+          <GeometryDrawing.Pen>
+            <Pen Brush="{StaticResource ControlTextBrushKey}" Thickness="2" LineCap="Round" LineJoin="Round" />
+          </GeometryDrawing.Pen>
+          <GeometryDrawing.Geometry>
+            <LineGeometry StartPoint="12,5" EndPoint="12,19" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+        <GeometryDrawing>
+          <GeometryDrawing.Pen>
+            <Pen Brush="{StaticResource ControlTextBrushKey}" Thickness="2" LineCap="Round" LineJoin="Round" />
+          </GeometryDrawing.Pen>
+          <GeometryDrawing.Geometry>
+            <LineGeometry StartPoint="5,12" EndPoint="19,12" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+      </DrawingGroup>
+    </DrawingImage.Drawing>
+  </DrawingImage>
+</ResourceDictionary>
