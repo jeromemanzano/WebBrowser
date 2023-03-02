@@ -28,16 +28,10 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore ${{ env.WPF_PROJECT_PATH }}
     
     - name: Build
-      run: dotnet build --configuration Release --no-restore
-    
-    - name: Test
-      run: dotnet test /p:CollectCoverage=true /p:Exclude="[*]Splat.*" /p:CoverletOutputFormat=opencover --no-restore --verbosity normal
-
-    - name: Test Coverage
-      uses: codecov/codecov-action@v3
+      run: dotnet build ${{ env.WPF_PROJECT_PATH }} --configuration Release --no-restore
 
     # TODO: sign package before publishing
     - name: Publish
