@@ -5,6 +5,8 @@
 		<TargetFramework>net6.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<Configurations>Debug;Release;WPF-Release;Test-Release</Configurations>
+		<Platforms>AnyCPU</Platforms>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">

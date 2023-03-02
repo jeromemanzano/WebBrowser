@@ -31,6 +31,8 @@ Global
 		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		WPF-Release|Any CPU = WPF-Release|Any CPU
+		Test-Release|Any CPU = Test-Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C653324F-BAD5-4778-9D9F-188121D175B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -53,6 +55,9 @@ Global
 		{C653324F-BAD5-4778-9D9F-188121D175B0}.Release|x64.Build.0 = Release|Any CPU
 		{C653324F-BAD5-4778-9D9F-188121D175B0}.Release|x86.ActiveCfg = Release|Any CPU
 		{C653324F-BAD5-4778-9D9F-188121D175B0}.Release|x86.Build.0 = Release|Any CPU
+		{C653324F-BAD5-4778-9D9F-188121D175B0}.WPF-Release|Any CPU.ActiveCfg = WPF-Release|Any CPU
+		{C653324F-BAD5-4778-9D9F-188121D175B0}.WPF-Release|Any CPU.Build.0 = WPF-Release|Any CPU
+		{C653324F-BAD5-4778-9D9F-188121D175B0}.Test-Release|Any CPU.ActiveCfg = Test-Release|Any CPU
 		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -73,6 +78,10 @@ Global
 		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Release|x64.Build.0 = Release|Any CPU
 		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Release|x86.ActiveCfg = Release|Any CPU
 		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Release|x86.Build.0 = Release|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.WPF-Release|Any CPU.ActiveCfg = WPF-Release|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.WPF-Release|Any CPU.Build.0 = WPF-Release|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Test-Release|Any CPU.ActiveCfg = Test-Release|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Test-Release|Any CPU.Build.0 = Test-Release|Any CPU
 		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -93,6 +102,9 @@ Global
 		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Release|x64.Build.0 = Release|Any CPU
 		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Release|x86.ActiveCfg = Release|Any CPU
 		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Release|x86.Build.0 = Release|Any CPU
+		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.WPF-Release|Any CPU.ActiveCfg = WPF-Release|Any CPU
+		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Test-Release|Any CPU.ActiveCfg = Test-Release|Any CPU
+		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Test-Release|Any CPU.Build.0 = Test-Release|Any CPU
 		{97664B61-57EC-4038-9480-C6DC36A3B164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{97664B61-57EC-4038-9480-C6DC36A3B164}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97664B61-57EC-4038-9480-C6DC36A3B164}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -113,6 +125,8 @@ Global
 		{97664B61-57EC-4038-9480-C6DC36A3B164}.Release|x64.Build.0 = Release|Any CPU
 		{97664B61-57EC-4038-9480-C6DC36A3B164}.Release|x86.ActiveCfg = Release|Any CPU
 		{97664B61-57EC-4038-9480-C6DC36A3B164}.Release|x86.Build.0 = Release|Any CPU
+		{97664B61-57EC-4038-9480-C6DC36A3B164}.WPF-Release|Any CPU.ActiveCfg = WPF-Release|Any CPU
+		{97664B61-57EC-4038-9480-C6DC36A3B164}.Test-Release|Any CPU.ActiveCfg = Test-Release|Any CPU
 		{F22DF54F-EDC8-4F3D-9DF9-62C4D2B3C647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F22DF54F-EDC8-4F3D-9DF9-62C4D2B3C647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F22DF54F-EDC8-4F3D-9DF9-62C4D2B3C647}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -133,6 +147,9 @@ Global
 		{F22DF54F-EDC8-4F3D-9DF9-62C4D2B3C647}.Release|x64.Build.0 = Release|Any CPU
 		{F22DF54F-EDC8-4F3D-9DF9-62C4D2B3C647}.Release|x86.ActiveCfg = Release|Any CPU
 		{F22DF54F-EDC8-4F3D-9DF9-62C4D2B3C647}.Release|x86.Build.0 = Release|Any CPU
+		{F22DF54F-EDC8-4F3D-9DF9-62C4D2B3C647}.WPF-Release|Any CPU.ActiveCfg = WPF-Release|Any CPU
+		{F22DF54F-EDC8-4F3D-9DF9-62C4D2B3C647}.WPF-Release|Any CPU.Build.0 = WPF-Release|Any CPU
+		{F22DF54F-EDC8-4F3D-9DF9-62C4D2B3C647}.Test-Release|Any CPU.ActiveCfg = Test-Release|Any CPU
 		{D41C152F-F7C1-4990-8692-760A551CC1F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D41C152F-F7C1-4990-8692-760A551CC1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D41C152F-F7C1-4990-8692-760A551CC1F6}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -153,6 +170,8 @@ Global
 		{D41C152F-F7C1-4990-8692-760A551CC1F6}.Release|x64.Build.0 = Release|Any CPU
 		{D41C152F-F7C1-4990-8692-760A551CC1F6}.Release|x86.ActiveCfg = Release|Any CPU
 		{D41C152F-F7C1-4990-8692-760A551CC1F6}.Release|x86.Build.0 = Release|Any CPU
+		{D41C152F-F7C1-4990-8692-760A551CC1F6}.WPF-Release|Any CPU.ActiveCfg = WPF-Release|Any CPU
+		{D41C152F-F7C1-4990-8692-760A551CC1F6}.Test-Release|Any CPU.ActiveCfg = Test-Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

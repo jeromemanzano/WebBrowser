@@ -3,6 +3,8 @@
         <TargetFramework>net6.0-macos</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>true</ImplicitUsings>
+        <Configurations>Debug;Release;WPF-Release;Test-Release</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
       <ProjectReference Include="..\WebBrowser.UI.Controls\WebBrowser.UI.Controls.csproj" />

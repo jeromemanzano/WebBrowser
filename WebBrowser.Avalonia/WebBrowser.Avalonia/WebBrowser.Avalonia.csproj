@@ -6,6 +6,8 @@
         <LangVersion>latest</LangVersion>
         <RuntimeIdentifier>osx-arm64</RuntimeIdentifier>
         <SelfContained>true</SelfContained>
+        <Configurations>Debug;Release;WPF-Release;Test-Release</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
