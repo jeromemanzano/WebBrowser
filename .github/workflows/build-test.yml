@@ -10,7 +10,7 @@ on:
 
 env:
   DOTNET_VERSION: '6.0.405'
-  TEST_PROJECT_PATH: WebBrowser.WPF/WebBrowser.Test.csproj
+  TEST_PROJECT_PATH: WebBrowser.Test/WebBrowser.Test.csproj
 
 jobs:
   build-test-publish:
