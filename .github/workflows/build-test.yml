@@ -1,4 +1,4 @@
-name: build, test and publish
+name: build and test
 
 on:
   push:
@@ -14,8 +14,6 @@ env:
 
 jobs:
   build-test-publish:
-    permissions: write-all
-
     runs-on: windows-latest
 
     steps:

@@ -1,4 +1,4 @@
-name: build, test and publish
+name: build and publish WPF
 
 on:
   push:
