@@ -10,7 +10,6 @@ on:
 
 env:
   DOTNET_VERSION: '6.0.405'
-  WPF_RELEASE_CONFIGURATION: 'WPF-Release'
   WPF_PROJECT_PATH: WebBrowser.WPF/WebBrowser.WPF.csproj
   TEST_RELEASE_CONFIGURATION: 'Test-Release'
   TEST_PROJECT_PATH: WebBrowser.Test/WebBrowser.Test.csproj
@@ -61,11 +60,11 @@ jobs:
       run: dotnet restore ${{ env.WPF_PROJECT_PATH}}
     
     - name: Build WPF
-      run: dotnet build ${{ env.WPF_PROJECT_PATH}} -c ${{ env.WPF_RELEASE_CONFIGURATION}} --no-restore
+      run: dotnet build ${{ env.WPF_PROJECT_PATH}} -c Release --no-restore
 
     # TODO: sign package before publishing
     - name: Publish WPF
-      run: dotnet publish ${{ env.WPF_PROJECT_PATH}} -c ${{ env.WPF_RELEASE_CONFIGURATION}} --self-contained -p:PublishSingleFile=true
+      run: dotnet publish ${{ env.WPF_PROJECT_PATH}} -c Release --self-contained -p:PublishSingleFile=true
       env:
         # TODO: support other RuntimeIdentifiers
         RuntimeIdentifier: win-x64
