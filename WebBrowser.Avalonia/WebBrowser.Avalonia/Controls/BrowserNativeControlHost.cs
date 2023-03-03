@@ -5,29 +5,29 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Platform;
 using Splat;
-using WebBrowser.UI.Controls;
+using WebBrowser.Native.Common;
 
 namespace WebBrowser.Avalonia.Controls;
 
 public class BrowserNativeControlHost : NativeControlHost
 {
-    private readonly INativeWebBrowser _nativeWebBrowser;
+    private readonly INativeWebBrowserAdapter _nativeWebBrowserAdapter;
     private readonly IPlatformHandle _platformHandle;
 
     public static readonly DirectProperty<BrowserNativeControlHost, ICommand> ReloadCommandProperty =
         AvaloniaProperty.RegisterDirect<BrowserNativeControlHost, ICommand>(
-            name: nameof(INativeWebBrowser.ReloadCommand),
-            getter: browser => browser._nativeWebBrowser.ReloadCommand);
+            name: nameof(INativeWebBrowserAdapter.ReloadCommand),
+            getter: browser => browser._nativeWebBrowserAdapter.ReloadCommand);
 
     public static readonly DirectProperty<BrowserNativeControlHost, ICommand> ForwardCommandProperty =
         AvaloniaProperty.RegisterDirect<BrowserNativeControlHost, ICommand>(
-            name: nameof(INativeWebBrowser.ForwardCommand),
-            getter: browser => browser._nativeWebBrowser.ForwardCommand);
+            name: nameof(INativeWebBrowserAdapter.ForwardCommand),
+            getter: browser => browser._nativeWebBrowserAdapter.ForwardCommand);
 
     public static readonly DirectProperty<BrowserNativeControlHost, ICommand> BackCommandProperty =
         AvaloniaProperty.RegisterDirect<BrowserNativeControlHost, ICommand>(
-            name: nameof(INativeWebBrowser.BackCommand),
-            getter: browser => browser._nativeWebBrowser.BackCommand);
+            name: nameof(INativeWebBrowserAdapter.BackCommand),
+            getter: browser => browser._nativeWebBrowserAdapter.BackCommand);
 
     public static readonly DirectProperty<BrowserNativeControlHost, string?> AddressProperty =
         AvaloniaProperty.RegisterDirect<BrowserNativeControlHost, string?>(
@@ -39,11 +39,11 @@ public class BrowserNativeControlHost : NativeControlHost
 
     public string? Address
     {
-        get => _nativeWebBrowser.Address;
+        get => _nativeWebBrowserAdapter.Address;
         set
         {
             SetAndRaise(AddressProperty, ref value, value);
-            _nativeWebBrowser.Address = value;
+            _nativeWebBrowserAdapter.Address = value;
         }
     }
 
@@ -54,36 +54,37 @@ public class BrowserNativeControlHost : NativeControlHost
             setter: null,
             unsetValue: null);
 
-    public string? Title => _nativeWebBrowser.Title;
+    public string? Title => _nativeWebBrowserAdapter.Title;
 
     public BrowserNativeControlHost()
     {
-        _nativeWebBrowser = Locator.Current.GetService<INativeWebBrowser>()!;
-        _platformHandle = new PlatformHandle(_nativeWebBrowser.NativeHandle ?? IntPtr.Zero,
-            _nativeWebBrowser.NativeDescriptor);
+        _nativeWebBrowserAdapter = Locator.Current.GetService<INativeWebBrowserAdapter>()!;
+        
+        _platformHandle = new PlatformHandle(_nativeWebBrowserAdapter.NativeHandle ?? IntPtr.Zero,
+            _nativeWebBrowserAdapter.NativeDescriptor);
     }
 
-    private void NativeWebBrowserOnTitleChanged(string title)
+    private void NativeWebBrowserAdapterWrapperWrapperTitleChanged(string title)
     {
         RaisePropertyChanged(TitleProperty, Title, title);
     }
 
-    private void NativeWebBrowserOnAddressChanged(string address)
+    private void NativeWebBrowserAdapterOnWrapperAddressChanged(string address)
     {
         RaisePropertyChanged(AddressProperty, Address, address);
     }
 
     protected override IPlatformHandle CreateNativeControlCore(IPlatformHandle parent)
     {
-        _nativeWebBrowser.AddressChanged += NativeWebBrowserOnAddressChanged;
-        _nativeWebBrowser.TitleChanged += NativeWebBrowserOnTitleChanged;
+        _nativeWebBrowserAdapter.AddressChanged += NativeWebBrowserAdapterOnWrapperAddressChanged;
+        _nativeWebBrowserAdapter.TitleChanged += NativeWebBrowserAdapterWrapperWrapperTitleChanged;
         return _platformHandle;
     }
 
     protected override void DestroyNativeControlCore(IPlatformHandle control)
     {
-        _nativeWebBrowser.AddressChanged -= NativeWebBrowserOnAddressChanged;
-        _nativeWebBrowser.TitleChanged -= NativeWebBrowserOnTitleChanged;
-        _nativeWebBrowser.Dispose();
+        _nativeWebBrowserAdapter.AddressChanged -= NativeWebBrowserAdapterOnWrapperAddressChanged;
+        _nativeWebBrowserAdapter.TitleChanged -= NativeWebBrowserAdapterWrapperWrapperTitleChanged;
+        _nativeWebBrowserAdapter.Dispose();
     }
 }

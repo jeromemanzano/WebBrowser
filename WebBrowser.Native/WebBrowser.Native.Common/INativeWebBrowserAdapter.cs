@@ -1,8 +1,8 @@
 using System.Windows.Input;
 
-namespace WebBrowser.UI.Controls;
+namespace WebBrowser.Native.Common;
 
-public interface INativeWebBrowser : IDisposable
+public interface INativeWebBrowserAdapter : IDisposable
 {
     /// <summary>
     /// Event that will be invoked when browser title changed
@@ -34,6 +34,17 @@ public interface INativeWebBrowser : IDisposable
     /// </summary>
     string? Address { get; set; }
     
+    /// <summary>
+    /// Flag that indicates if the web page is loading
+    /// </summary>
+    bool IsLoading { get; }
+    
+    /// <summary>
+    /// Flag that indicates if the web page loading failed.
+    /// This is set to false on every initial load attempt.
+    /// </summary>
+    bool LoadingFailed { get; }    
+
     /// <summary>
     /// Reloads the web page
     /// </summary>

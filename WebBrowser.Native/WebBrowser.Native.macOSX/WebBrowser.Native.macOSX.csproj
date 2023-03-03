@@ -5,9 +5,11 @@
         <ImplicitUsings>true</ImplicitUsings>
         <Configurations>Debug;Release;Test-Release</Configurations>
         <Platforms>AnyCPU</Platforms>
+        <RootNamespace>WebBrowser.Native.macOSX</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-      <ProjectReference Include="..\WebBrowser.UI.Controls\WebBrowser.UI.Controls.csproj" />
+      <ProjectReference Include="..\WebBrowser.Native.Common\WebBrowser.Native.Common.csproj" />
+      <ProjectReference Include="..\..\WebBrowser\WebBrowser.csproj" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="ReactiveUI" Version="18.4.1" />

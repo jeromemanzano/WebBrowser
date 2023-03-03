@@ -1,14 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0-macOS</TargetFramework>
+        <TargetFramework>net6.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
-        <RuntimeIdentifier>osx-arm64</RuntimeIdentifier>
         <SelfContained>true</SelfContained>
         <Configurations>Debug;Release;Test-Release</Configurations>
         <Platforms>AnyCPU</Platforms>
+        
     </PropertyGroup>
+    <Choose>
+        <When Condition="'$(TargetFramework)' == 'net6.0-windows'">
+            <PropertyGroup>
+                <!-- TODO: add other RID-->
+                <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+            </PropertyGroup>
+            <ItemGroup>
+                <ProjectReference Include="..\..\WebBrowser.Native\WebBrowser.Native.Common\WebBrowser.Native.Common.csproj" />
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <!-- TODO: add other RID-->
+                <RuntimeIdentifier>osx-arm64</RuntimeIdentifier>
+            </PropertyGroup>
+            <ItemGroup>
+                <ProjectReference Include="..\..\WebBrowser.Native\WebBrowser.Native.macOSX\WebBrowser.Native.macOSX.csproj" />
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
+
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
@@ -23,8 +44,7 @@
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\WebBrowser.macOSX\WebBrowser.macOSX.csproj" />
-        <ProjectReference Include="..\..\WebBrowser.UI.Controls\WebBrowser.UI.Controls.csproj" />
+        <ProjectReference Include="..\..\WebBrowser.Native\WebBrowser.Native.Windows\WebBrowser.Native.Windows.csproj" />
         <ProjectReference Include="..\..\WebBrowser\WebBrowser.csproj" />
     </ItemGroup>
     <ItemGroup>
