@@ -1,6 +1,6 @@
 using WebKit;
 
-namespace WebBrowser.macOSX.Controls.WebView;
+namespace WebBrowser.Native.macOSX.Controls.WebView;
 
 internal sealed class WebViewNavigationHandler : WKNavigationDelegate
 {

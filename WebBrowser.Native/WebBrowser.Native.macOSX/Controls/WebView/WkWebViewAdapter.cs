@@ -2,7 +2,6 @@ using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
 using WebBrowser.Extensions;
-using WebBrowser.macOSX.Controls.WebView;
 using WebBrowser.Native.Common;
 using WebKit;
 
