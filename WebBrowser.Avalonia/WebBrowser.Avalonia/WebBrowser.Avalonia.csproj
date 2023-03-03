@@ -16,7 +16,7 @@
                 <RuntimeIdentifier>win-x64</RuntimeIdentifier>
             </PropertyGroup>
             <ItemGroup>
-                <ProjectReference Include="..\..\WebBrowser.Native\WebBrowser.Native.Common\WebBrowser.Native.Common.csproj" />
+                <ProjectReference Include="..\..\WebBrowser.Native\WebBrowser.Native.Windows\WebBrowser.Native.Windows.csproj" />
             </ItemGroup>
         </When>
         <Otherwise>
