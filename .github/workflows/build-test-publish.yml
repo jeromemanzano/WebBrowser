@@ -99,6 +99,9 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: Install MacOS workload
+        run: dotnet workload install macos
 
       - name: Install Avalonia MacOS dependencies
         run: dotnet restore ${{ env.AVALONIA_PROJECT_PATH}} -p:Configuration=Avalonia-Mac-Release
@@ -145,9 +148,9 @@ jobs:
           tag_name: avalonia-win-${{ github.run_number }}
           release_name: ${{ ( github.event_name == 'pull_request' && 'Ava-Win-PR-Build' ) || 'Ava-Win-Release' }} ${{ github.run_number }}
 
-      - name: Upload WPF Release (win-x64)
+      - name: Upload Avalonia Windows Release (win-x64)
         uses: csexton/release-asset-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: WebBrowser.Avalonia/bin/Release/net6.0-windows/win-x64/publish/*.exe
+          pattern: WebBrowser.Avalonia/bin/Ava-Win-Release/net6.0-windows/win-x64/publish/*.exe
           release-url: ${{ steps.create_release.outputs.upload_url }}    
