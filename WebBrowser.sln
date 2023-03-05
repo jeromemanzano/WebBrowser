@@ -36,6 +36,10 @@ Global
 		Test-Release|ARM64 = Test-Release|ARM64
 		Test-Release|x64 = Test-Release|x64
 		Test-Release|x86 = Test-Release|x86
+		Avalonia-Win-Release|Any CPU = Avalonia-Win-Release|Any CPU
+		Avalonia-Win-Debug|Any CPU = Avalonia-Win-Debug|Any CPU
+		Avalonia-Mac-Debug|Any CPU = Avalonia-Mac-Debug|Any CPU
+		Avalonia-Mac-Release|Any CPU = Avalonia-Mac-Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C653324F-BAD5-4778-9D9F-188121D175B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -97,6 +101,14 @@ Global
 		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Test-Release|x64.Build.0 = Test-Release|Any CPU
 		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Test-Release|x86.ActiveCfg = Test-Release|Any CPU
 		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Test-Release|x86.Build.0 = Test-Release|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Avalonia-Mac-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Avalonia-Mac-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Avalonia-Mac-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Avalonia-Mac-Release|Any CPU.Build.0 = Release|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Avalonia-Win-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Avalonia-Win-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Avalonia-Win-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA610FF2-3B04-479B-8508-E5B4CF8C5472}.Avalonia-Win-Release|Any CPU.Build.0 = Release|Any CPU
 		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E5AA470-7E79-4F19-A3D4-BAFFEA449A20}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -152,6 +164,14 @@ Global
 		{97664B61-57EC-4038-9480-C6DC36A3B164}.Test-Release|x64.Build.0 = Test-Release|Any CPU
 		{97664B61-57EC-4038-9480-C6DC36A3B164}.Test-Release|x86.ActiveCfg = Test-Release|Any CPU
 		{97664B61-57EC-4038-9480-C6DC36A3B164}.Test-Release|x86.Build.0 = Test-Release|Any CPU
+		{97664B61-57EC-4038-9480-C6DC36A3B164}.Avalonia-Win-Release|Any CPU.ActiveCfg = Avalonia-Win-Release|Any CPU
+		{97664B61-57EC-4038-9480-C6DC36A3B164}.Avalonia-Win-Release|Any CPU.Build.0 = Avalonia-Win-Release|Any CPU
+		{97664B61-57EC-4038-9480-C6DC36A3B164}.Avalonia-Win-Debug|Any CPU.ActiveCfg = Avalonia-Win-Debug|Any CPU
+		{97664B61-57EC-4038-9480-C6DC36A3B164}.Avalonia-Win-Debug|Any CPU.Build.0 = Avalonia-Win-Debug|Any CPU
+		{97664B61-57EC-4038-9480-C6DC36A3B164}.Avalonia-Mac-Release|Any CPU.ActiveCfg = Avalonia-Mac-Release|Any CPU
+		{97664B61-57EC-4038-9480-C6DC36A3B164}.Avalonia-Mac-Release|Any CPU.Build.0 = Avalonia-Mac-Release|Any CPU
+		{97664B61-57EC-4038-9480-C6DC36A3B164}.Avalonia-Mac-Debug|Any CPU.ActiveCfg = Avalonia-Mac-Debug|Any CPU
+		{97664B61-57EC-4038-9480-C6DC36A3B164}.Avalonia-Mac-Debug|Any CPU.Build.0 = Avalonia-Mac-Debug|Any CPU
 		{C594193B-0086-4734-B363-11889E344EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C594193B-0086-4734-B363-11889E344EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C594193B-0086-4734-B363-11889E344EFA}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -182,6 +202,10 @@ Global
 		{C594193B-0086-4734-B363-11889E344EFA}.Test-Release|x64.Build.0 = Test-Release|Any CPU
 		{C594193B-0086-4734-B363-11889E344EFA}.Test-Release|x86.ActiveCfg = Test-Release|Any CPU
 		{C594193B-0086-4734-B363-11889E344EFA}.Test-Release|x86.Build.0 = Test-Release|Any CPU
+		{C594193B-0086-4734-B363-11889E344EFA}.Avalonia-Mac-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C594193B-0086-4734-B363-11889E344EFA}.Avalonia-Mac-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C594193B-0086-4734-B363-11889E344EFA}.Avalonia-Mac-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C594193B-0086-4734-B363-11889E344EFA}.Avalonia-Mac-Release|Any CPU.Build.0 = Release|Any CPU
 		{34F34AFE-67B1-41E8-8C55-EC40BAEEC759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{34F34AFE-67B1-41E8-8C55-EC40BAEEC759}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34F34AFE-67B1-41E8-8C55-EC40BAEEC759}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -212,6 +236,10 @@ Global
 		{34F34AFE-67B1-41E8-8C55-EC40BAEEC759}.Test-Release|x64.Build.0 = Test-Release|Any CPU
 		{34F34AFE-67B1-41E8-8C55-EC40BAEEC759}.Test-Release|x86.ActiveCfg = Test-Release|Any CPU
 		{34F34AFE-67B1-41E8-8C55-EC40BAEEC759}.Test-Release|x86.Build.0 = Test-Release|Any CPU
+		{34F34AFE-67B1-41E8-8C55-EC40BAEEC759}.Avalonia-Win-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F34AFE-67B1-41E8-8C55-EC40BAEEC759}.Avalonia-Win-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F34AFE-67B1-41E8-8C55-EC40BAEEC759}.Avalonia-Win-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34F34AFE-67B1-41E8-8C55-EC40BAEEC759}.Avalonia-Win-Release|Any CPU.Build.0 = Release|Any CPU
 		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -242,6 +270,14 @@ Global
 		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Test-Release|x64.Build.0 = Test-Release|Any CPU
 		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Test-Release|x86.ActiveCfg = Test-Release|Any CPU
 		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Test-Release|x86.Build.0 = Test-Release|Any CPU
+		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Avalonia-Mac-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Avalonia-Mac-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Avalonia-Mac-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Avalonia-Mac-Release|Any CPU.Build.0 = Release|Any CPU
+		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Avalonia-Win-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Avalonia-Win-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Avalonia-Win-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F1F823-531A-46C3-B6DD-623BEA5BA641}.Avalonia-Win-Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
