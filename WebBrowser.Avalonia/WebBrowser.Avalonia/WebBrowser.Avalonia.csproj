@@ -4,7 +4,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <SelfContained>true</SelfContained>
-        <Configurations>Debug;Release;Test-Release;Avalonia-Win-Release;Avalonia-Win-Debug;Avalonia-Mac-Debug;Avalonia-Mac-Release</Configurations>
+        <Configurations>Debug;Release;Avalonia-Win-Release;Avalonia-Win-Debug;Avalonia-Mac-Debug;Avalonia-Mac-Release</Configurations>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <Choose>
