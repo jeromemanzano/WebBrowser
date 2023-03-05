@@ -8,7 +8,7 @@ public class Grouping<TKey, TObject> : ObservableCollectionExtended<TObject>, IG
     private readonly IDisposable? _groupDisposable;
     public TKey Key { get; }
 
-    public Grouping(IGroup<TObject, TKey> group)
+    public Grouping(IGroup<TObject, TKey>? group)
     {
         if (group == null)
         {
