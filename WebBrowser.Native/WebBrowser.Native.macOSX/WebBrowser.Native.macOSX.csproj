@@ -8,10 +8,11 @@
         <RootNamespace>WebBrowser.Native.macOSX</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-      <ProjectReference Include="..\WebBrowser.Native.Common\WebBrowser.Native.Common.csproj" />
-      <ProjectReference Include="..\..\WebBrowser\WebBrowser.csproj" />
+        <ProjectReference Include="..\WebBrowser.Native.Common\WebBrowser.Native.Common.csproj"/>
+        <ProjectReference Include="..\..\WebBrowser\WebBrowser.csproj"/>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="ReactiveUI" Version="18.4.1" />
+        <PackageReference Include="ReactiveUI" Version="18.4.1"/>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
     </ItemGroup>
 </Project>

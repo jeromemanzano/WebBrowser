@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1587.40" />
         <PackageReference Include="ReactiveUI" Version="18.4.1" />
         <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
