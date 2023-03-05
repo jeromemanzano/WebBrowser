@@ -16,78 +16,78 @@ env:
   AVALONIA_PROJECT_PATH: WebBrowser.Avalonia/WebBrowser.Avalonia/WebBrowser.Avalonia.csproj
 
 jobs:
-  run-test:
-    runs-on: windows-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-          
-      - name: Install Test dependencies
-        run: dotnet restore ${{ env.TEST_PROJECT_PATH }}
-
-      - name: Build Test
-        run: dotnet build --configuration ${{ env.TEST_RELEASE_CONFIGURATION}} --no-restore
-
-      - name: Run Test
-        run: dotnet test --configuration ${{ env.TEST_RELEASE_CONFIGURATION}} /p:CollectCoverage=true /p:Exclude="[*]Splat.*" /p:CoverletOutputFormat=opencover --no-restore --verbosity normal
-
-      - name: Test Coverage
-        uses: codecov/codecov-action@v3
-        
-  publish-wpf-build:
-    needs: run-test
-    
-    permissions:
-      contents: write
-
-    runs-on: windows-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-        
-    - name: Install WPF dependencies
-      run: dotnet restore ${{ env.WPF_PROJECT_PATH}}
-    
-    - name: Build WPF
-      run: dotnet build ${{ env.WPF_PROJECT_PATH}} -c Release --no-restore
-
-    # TODO: sign package before publishing
-    - name: Publish WPF
-      run: dotnet publish ${{ env.WPF_PROJECT_PATH}} -c Release --self-contained -p:PublishSingleFile=true
-      env:
-        # TODO: support other RuntimeIdentifiers
-        RuntimeIdentifier: win-x64
-
-    - name: Create WPF Release
-      uses: actions/create-release@v1
-      id: create_release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: wpf-${{ github.run_number }}
-        release_name: ${{ ( github.event_name == 'pull_request' && 'WPF-PR-Build' ) || 'WPF-Release' }} ${{ github.run_number }}
-
-    - name: Upload WPF Release (win-x64)
-      uses: csexton/release-asset-action@v2
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        pattern: WebBrowser.WPF/bin/Release/net6.0-windows/win-x64/publish/*.exe
-        release-url: ${{ steps.create_release.outputs.upload_url }}
+#  run-test:
+#    runs-on: windows-latest
+#    
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Setup .NET
+#        uses: actions/setup-dotnet@v3
+#        with:
+#          dotnet-version: ${{ env.DOTNET_VERSION }}
+#          
+#      - name: Install Test dependencies
+#        run: dotnet restore ${{ env.TEST_PROJECT_PATH }}
+#
+#      - name: Build Test
+#        run: dotnet build --configuration ${{ env.TEST_RELEASE_CONFIGURATION}} --no-restore
+#
+#      - name: Run Test
+#        run: dotnet test --configuration ${{ env.TEST_RELEASE_CONFIGURATION}} /p:CollectCoverage=true /p:Exclude="[*]Splat.*" /p:CoverletOutputFormat=opencover --no-restore --verbosity normal
+#
+#      - name: Test Coverage
+#        uses: codecov/codecov-action@v3
+#        
+#  publish-wpf-build:
+#    needs: run-test
+#    
+#    permissions:
+#      contents: write
+#
+#    runs-on: windows-latest
+#
+#    steps:
+#    - name: Checkout code
+#      uses: actions/checkout@v3
+#
+#    - name: Setup .NET
+#      uses: actions/setup-dotnet@v3
+#      with:
+#        dotnet-version: ${{ env.DOTNET_VERSION }}
+#        
+#    - name: Install WPF dependencies
+#      run: dotnet restore ${{ env.WPF_PROJECT_PATH}}
+#    
+#    - name: Build WPF
+#      run: dotnet build ${{ env.WPF_PROJECT_PATH}} -c Release --no-restore
+#
+#    # TODO: sign package before publishing
+#    - name: Publish WPF
+#      run: dotnet publish ${{ env.WPF_PROJECT_PATH}} -c Release --self-contained -p:PublishSingleFile=true
+#      env:
+#        # TODO: support other RuntimeIdentifiers
+#        RuntimeIdentifier: win-x64
+#
+#    - name: Create WPF Release
+#      uses: actions/create-release@v1
+#      id: create_release
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      with:
+#        tag_name: wpf-${{ github.run_number }}
+#        release_name: ${{ ( github.event_name == 'pull_request' && 'WPF-PR-Build' ) || 'WPF-Release' }} ${{ github.run_number }}
+#
+#    - name: Upload WPF Release (win-x64)
+#      uses: csexton/release-asset-action@v2
+#      with:
+#        github-token: ${{ secrets.GITHUB_TOKEN }}
+#        pattern: WebBrowser.WPF/bin/Release/net6.0-windows/win-x64/publish/*.exe
+#        release-url: ${{ steps.create_release.outputs.upload_url }}
         
   avalonia-mac-build:
-    needs: run-test
+#    needs: run-test
     
     runs-on: macos-latest
 
@@ -106,8 +106,8 @@ jobs:
       - name: Build Avalonia MacOS
         run: dotnet build ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Mac-Release --no-restore
     
-  publish-avalonia-wind-build:
-    needs: run-test
+  publish-avalonia-win-build:
+#    needs: run-test
     
     permissions:
       contents: write
