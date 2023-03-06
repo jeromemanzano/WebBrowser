@@ -21,4 +21,19 @@ public static class StringExtensions
         
         return _urlPattern.IsMatch(url);
     }
+    
+    /// <summary>
+    /// Ensures that string url starts with http:// or https://
+    /// </summary>
+    /// <param name="url">String url to be formatted</param>
+    /// <returns>Formatted url that starts with http:// or https:// </returns>
+    public static string FormatStringUrl(string url)
+    {
+        if (url.StartsWith(@"http://") || url.StartsWith(@"https://"))
+        {
+            return url;
+        }
+
+        return $"https://{url}";
+    }
 }

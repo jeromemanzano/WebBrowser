@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0-macos</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>true</ImplicitUsings>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>AnyCPU</Platforms>
+        <RootNamespace>WebBrowser.Native.macOSX</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\WebBrowser.Native.Common\WebBrowser.Native.Common.csproj"/>
+        <ProjectReference Include="..\..\WebBrowser\WebBrowser.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="ReactiveUI" Version="18.4.1"/>
+    </ItemGroup>
+</Project>

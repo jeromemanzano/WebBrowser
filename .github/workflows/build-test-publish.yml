@@ -13,11 +13,12 @@ env:
   WPF_PROJECT_PATH: WebBrowser.WPF/WebBrowser.WPF.csproj
   TEST_RELEASE_CONFIGURATION: 'Test-Release'
   TEST_PROJECT_PATH: WebBrowser.Test/WebBrowser.Test.csproj
+  AVALONIA_PROJECT_PATH: WebBrowser.Avalonia/WebBrowser.Avalonia/WebBrowser.Avalonia.csproj
 
 jobs:
   run-test:
     runs-on: windows-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -26,7 +27,7 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-          
+
       - name: Install Test dependencies
         run: dotnet restore ${{ env.TEST_PROJECT_PATH }}
 
@@ -38,10 +39,10 @@ jobs:
 
       - name: Test Coverage
         uses: codecov/codecov-action@v3
-        
+
   publish-wpf-build:
     needs: run-test
-    
+
     permissions:
       contents: write
 
@@ -55,10 +56,10 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-        
+
     - name: Install WPF dependencies
       run: dotnet restore ${{ env.WPF_PROJECT_PATH}}
-    
+
     - name: Build WPF
       run: dotnet build ${{ env.WPF_PROJECT_PATH}} -c Release --no-restore
 
@@ -84,3 +85,72 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         pattern: WebBrowser.WPF/bin/Release/net6.0-windows/win-x64/publish/*.exe
         release-url: ${{ steps.create_release.outputs.upload_url }}
+        
+  avalonia-mac-build:
+    needs: run-test
+    
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: Install MacOS workload
+        run: dotnet workload install macos
+
+      - name: Install Avalonia MacOS dependencies
+        run: dotnet restore ${{ env.AVALONIA_PROJECT_PATH}} -p:Configuration=Avalonia-Mac-Release
+
+      - name: Build Avalonia MacOS
+        run: dotnet build ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Mac-Release --no-restore
+    
+  publish-avalonia-win-build:
+    needs: run-test
+    
+    permissions:
+      contents: write
+
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install Avalonia Windows dependencies
+        run: dotnet restore ${{ env.AVALONIA_PROJECT_PATH}} -p:Configuration=Avalonia-Win-Release
+
+      - name: Build Avalonia Windows
+        run: dotnet build ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release --no-restore
+      
+      # TODO: sign package before publishing
+      - name: Publish Avalonia Windows
+        run: dotnet publish ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release
+        env:
+          # TODO: support other RuntimeIdentifiers
+          RuntimeIdentifier: win-x64
+
+      - name: Create Avalonia Windows Release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: avalonia-win-${{ github.run_number }}
+          release_name: ${{ ( github.event_name == 'pull_request' && 'Ava-Win-PR-Build' ) || 'Ava-Win-Release' }} ${{ github.run_number }}
+
+      - name: Upload Avalonia Windows Release (win-x64)
+        uses: csexton/release-asset-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: WebBrowser.Avalonia/WebBrowser.Avalonia/bin/Avalonia-Win-Release/win-x64/publish/*.exe
+          release-url: ${{ steps.create_release.outputs.upload_url }}    

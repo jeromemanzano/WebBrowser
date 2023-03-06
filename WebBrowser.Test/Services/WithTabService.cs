@@ -17,7 +17,7 @@ public class WithTabService
         var browserHistoryService = new Mock<IBrowserHistoryService>();
         var autoCompleteService = new Mock<IAutoCompleteService>();
         
-        Locator.CurrentMutable.Register<TabContentViewModel>(() => new TabContentViewModel(browserHistoryService.Object, autoCompleteService.Object, _tabService));
+        Locator.CurrentMutable.Register(() => new TabContentViewModel(browserHistoryService.Object, autoCompleteService.Object, _tabService));
     }
 
     [Test]
@@ -102,5 +102,28 @@ public class WithTabService
         _tabService.RemoveTab(tabToRemove);
 
         Assert.That(_tabService.SelectedIndex, Is.EqualTo(selectedTabIndex - 1));
+    }
+
+    [Test]
+    public void When_SelectedTab_Changed_SelectedTab_IsActiveTab_Should_Be_True()
+    {
+        var tabsCount = 5;
+        foreach (var _ in Enumerable.Range(0, tabsCount))
+        {
+            _tabService.AddNewTab();
+        }
+
+        var selectedTabIndex = 2;
+        var selectedTab = _tabService.Tabs[selectedTabIndex];
+
+        _tabService.SelectedIndex = selectedTabIndex;
+        _tabService.SelectedTab = selectedTab;
+
+        for (int currentIndex = 0; currentIndex < _tabService.Tabs.Count; currentIndex++)
+        {
+            var tab = _tabService.Tabs[currentIndex];
+            Assert.That(tab.IsActiveTab, Is.EqualTo(selectedTab == tab));
+            Assert.That(tab.IsActiveTab, Is.EqualTo(selectedTabIndex == currentIndex));
+        }
     }
 }

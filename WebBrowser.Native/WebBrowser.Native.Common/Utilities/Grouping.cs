@@ -1,14 +1,14 @@
 using DynamicData;
 using DynamicData.Binding;
 
-namespace WebBrowser.Models;
+namespace WebBrowser.Native.Common.Utilities;
 
 public class Grouping<TKey, TObject> : ObservableCollectionExtended<TObject>, IGrouping<TKey, TObject>, IDisposable
 {
     private readonly IDisposable? _groupDisposable;
     public TKey Key { get; }
 
-    public Grouping(IGroup<TObject, TKey> group)
+    public Grouping(IGroup<TObject, TKey>? group)
     {
         if (group == null)
         {

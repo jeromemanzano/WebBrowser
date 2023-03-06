@@ -1,12 +1,13 @@
 using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
-using WebBrowser.UI.Controls;
+using WebBrowser.Extensions;
+using WebBrowser.Native.Common;
 using WebKit;
 
-namespace WebBrowser.macOSX.Controls.WebView;
+namespace WebBrowser.Native.macOSX.Controls.WebView;
 
-public sealed class WebView : ReactiveObject, INativeWebBrowser
+public sealed class WkWebViewAdapter : ReactiveObject, INativeWebBrowserAdapter
 {
     private readonly WKWebView _webView;
     public event Action<string>? TitleChanged;
@@ -23,11 +24,14 @@ public sealed class WebView : ReactiveObject, INativeWebBrowser
         get => _address;
         set => this.RaiseAndSetIfChanged(ref _address, value);
     }
+
+    public bool IsLoading => throw new NotImplementedException("Property is not yet implemented");
+    public bool LoadingFailed { get; }
     public ICommand ReloadCommand { get; }
     public ICommand ForwardCommand { get; }
     public ICommand BackCommand { get; }
 
-    public WebView()
+    public WkWebViewAdapter()
     {
         _webView = new WKWebView(CGRect.Empty, new WKWebViewConfiguration())
         {
@@ -50,20 +54,10 @@ public sealed class WebView : ReactiveObject, INativeWebBrowser
             .WhereNotNull()
             .Where(address => address != _webView.Url?.AbsoluteString)
             .DistinctUntilChanged()
-            .Select(FormatUrl)
+            .Select(StringExtensions.FormatStringUrl)
             .ObserveOn(RxApp.MainThreadScheduler)
             .Do(formattedUrl => _webView.LoadRequest(new NSUrlRequest(new NSUrl(formattedUrl))))
             .Subscribe();
-    }
-
-    private string FormatUrl(string url)
-    {
-        if (url.StartsWith(@"http://") || url.StartsWith(@"https://"))
-        {
-            return url;
-        }
-
-        return $"https://{url}";
     }
 
     public void Dispose()

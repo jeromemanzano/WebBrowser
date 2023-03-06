@@ -9,7 +9,7 @@
         x:Class="WebBrowser.Avalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico">
     <Window.Styles>
-        <StyleInclude Source="/Styles/BrowserHistoryView.xaml" />
+        <StyleInclude Source="/Styles/MainWindow.xaml" />
     </Window.Styles>
     <Grid>
         <TabControl Items="{Binding TabService.Tabs}"

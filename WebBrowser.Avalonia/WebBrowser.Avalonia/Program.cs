@@ -1,12 +1,11 @@
 using System;
-using AppKit;
 using Avalonia;
 using Avalonia.ReactiveUI;
 using Splat;
 using WebBrowser.Entities;
 using WebBrowser.Services;
 using WebBrowser.Services.Implementation;
-using WebBrowser.UI.Controls;
+using WebBrowser.Native.Common;
 using WebBrowser.ViewModels;
 
 namespace WebBrowser.Avalonia;
@@ -20,8 +19,8 @@ class Program
     public static void Main(string[] args)
     {
         Setup();
+        SetupNative();
         RegisterServices();
-        RegisterControls();
         RegisterViewModels();
         
         BuildAvaloniaApp()
@@ -37,7 +36,6 @@ class Program
 
     private static void Setup()
     {
-        NSApplication.Init();
         Akavache.Registrations.Start("WebBrowser");
         SplatRegistrations.SetupIOC(Locator.GetLocator());
     }
@@ -58,8 +56,15 @@ class Program
         SplatRegistrations.Register<TabContentViewModel>();
     }
 
-    private static void RegisterControls()
+    private static void SetupNative()
     {
-        SplatRegistrations.Register<INativeWebBrowser, macOSX.Controls.WebView.WebView>();
+#if MACOS
+        AppKit.NSApplication.Init(); // This needs to be called once when loading native controls
+        SplatRegistrations.Register<INativeWebBrowserAdapter, WebBrowser.Native.macOSX.Controls.WebView.WkWebViewAdapter>();
+        
+        
+#else
+        SplatRegistrations.Register<INativeWebBrowserAdapter, WebBrowser.Native.Windows.Controls.WebView.WebViewAdapter>();
+#endif
     }
 }

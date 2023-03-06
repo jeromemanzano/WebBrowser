@@ -14,7 +14,11 @@ public class TabStripPanel : WrapPanel
         AvaloniaProperty.RegisterDirect<TabStripPanel, double>(
             name: nameof(MaxTabStripWidth),
             getter: panel => panel.MaxTabStripWidth,
-            setter: (panel, maxTabStripWidth) => panel.MaxTabStripWidth = maxTabStripWidth);
+            setter: (panel, maxTabStripWidth) =>
+            {
+                panel.MaxTabStripWidth = maxTabStripWidth;
+                panel.InvalidateMeasure();
+            });
 
     protected override Size MeasureOverride(Size constraint)
     {

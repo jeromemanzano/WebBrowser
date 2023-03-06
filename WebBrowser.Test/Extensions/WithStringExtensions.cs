@@ -25,4 +25,26 @@ public class WithStringExtensions
     {
         Assert.IsFalse(url.IsValidUrl());
     }
+
+    [TestCase("nohttp.com")]
+    [TestCase("http:/test.com")]
+    [TestCase("http.com")]
+    public void FormatStringUrl_Should_Prepend_Https_When_String_Does_Not_Start_With_Http_Or_Https(string url)
+    {
+        var formattedUrlString = StringExtensions.FormatStringUrl(url);
+        
+        Assert.That(formattedUrlString, Is.Not.EqualTo(url));
+        Assert.That(formattedUrlString.StartsWith("https://"));
+    }
+    
+    [TestCase("http://")]
+    [TestCase("http://test.com")]
+    [TestCase("https://")]
+    [TestCase("https://test.com")]
+    public void FormatStringUrl_Should_Not_Update_String_When_It_Start_With_Http_Or_Https(string url)
+    {
+        var formattedUrlString = StringExtensions.FormatStringUrl(url);
+        
+        Assert.That(formattedUrlString, Is.EqualTo(url));
+    }
 }
