@@ -1,0 +1,43 @@
+name: Avalonia MacOS build
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - ['**.md', 'CrossBrowser.WPF/**', '**/CrossBrowser.Native.Windows/**', 'CrossBrowser.Test/**']
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - ['**.md', 'CrossBrowser.WPF/**', '**/CrossBrowser.Native.Windows/**', 'CrossBrowser.Test/**']
+  workflow_run:
+    workflows: [Tests]
+    types:
+      - completed
+
+env:
+  DOTNET_VERSION: '6.0.405'
+  AVALONIA_PROJECT_PATH: CrossBrowser.Avalonia/CrossBrowser.Avalonia.csproj
+
+jobs:
+  avalonia-mac-build:
+    needs: run-test
+    
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: Install MacOS workload
+        run: dotnet workload install macos
+
+      - name: Install Avalonia MacOS dependencies
+        run: dotnet restore ${{ env.AVALONIA_PROJECT_PATH}} -p:Configuration=Avalonia-Mac-Release
+
+      - name: Build Avalonia MacOS
+        run: dotnet build ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Mac-Release --no-restore
