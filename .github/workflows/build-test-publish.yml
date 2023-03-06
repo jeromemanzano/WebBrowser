@@ -134,7 +134,7 @@ jobs:
       
       # TODO: sign package before publishing
       - name: Publish Avalonia Windows
-        run: dotnet publish ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release --self-contained -p:PublishSingleFile=true
+        run: dotnet publish ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release
         env:
           # TODO: support other RuntimeIdentifiers
           RuntimeIdentifier: win-x64
@@ -152,5 +152,5 @@ jobs:
         uses: csexton/release-asset-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: WebBrowser.Avalonia/bin/Ava-Win-Release/net6.0-windows/win-x64/publish/*.exe
+          pattern: WebBrowser.Avalonia/WebBrowser.Avalonia/bin/Avalonia-Win-Release/win-x64/publish/*.exe
           release-url: ${{ steps.create_release.outputs.upload_url }}    

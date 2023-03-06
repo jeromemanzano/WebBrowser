@@ -3,7 +3,8 @@
         <OutputType>Exe</OutputType>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
-        <SelfContained>true</SelfContained>
+        <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>False</AppendRuntimeIdentifierToOutputPath>
         <Configurations>Debug;Release;Avalonia-Win-Release;Avalonia-Win-Debug;Avalonia-Mac-Debug;Avalonia-Mac-Release</Configurations>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
@@ -13,6 +14,12 @@
                 <TargetFramework>net6.0-windows</TargetFramework>
                 <!-- TODO: add other RID-->
                 <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+                <SelfContained>true</SelfContained>
+                <PublishSingleFile>true</PublishSingleFile>
+                <PublishTrimmed>false</PublishTrimmed>
+                <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+                <IncludeNativeLibrariesInSingleFile>true</IncludeNativeLibrariesInSingleFile>
+                <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
             </PropertyGroup>
             <ItemGroup>
                 <ProjectReference Include="..\..\WebBrowser.Native\WebBrowser.Native.Windows\WebBrowser.Native.Windows.csproj"/>
