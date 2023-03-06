@@ -10,10 +10,10 @@ on:
 
 env:
   DOTNET_VERSION: '6.0.405'
-  WPF_PROJECT_PATH: WebBrowser.WPF/WebBrowser.WPF.csproj
+  WPF_PROJECT_PATH: CrossBrowser.WPF/CrossBrowser.WPF.csproj
   TEST_RELEASE_CONFIGURATION: 'Test-Release'
-  TEST_PROJECT_PATH: WebBrowser.Test/WebBrowser.Test.csproj
-  AVALONIA_PROJECT_PATH: WebBrowser.Avalonia/WebBrowser.Avalonia/WebBrowser.Avalonia.csproj
+  TEST_PROJECT_PATH: CrossBrowser.Test/CrossBrowser.Test.csproj
+  AVALONIA_PROJECT_PATH: CrossBrowser.Avalonia/CrossBrowser.Avalonia.csproj
 
 jobs:
   run-test:
@@ -83,7 +83,7 @@ jobs:
       uses: csexton/release-asset-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        pattern: WebBrowser.WPF/bin/Release/net6.0-windows/win-x64/publish/*.exe
+        pattern: CrossBrowser.WPF/bin/Release/net6.0-windows/win-x64/publish/*.exe
         release-url: ${{ steps.create_release.outputs.upload_url }}
         
   avalonia-mac-build:
@@ -152,5 +152,5 @@ jobs:
         uses: csexton/release-asset-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: WebBrowser.Avalonia/WebBrowser.Avalonia/bin/Avalonia-Win-Release/win-x64/publish/*.exe
+          pattern: CrossBrowser.Avalonia/bin/Avalonia-Win-Release/win-x64/publish/*.exe
           release-url: ${{ steps.create_release.outputs.upload_url }}    

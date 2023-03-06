@@ -1,0 +1,52 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:CrossBrowser.Avalonia.Views"
+        xmlns:viewModels="clr-namespace:CrossBrowser.ViewModels;assembly=CrossBrowser"
+        xmlns:converters="clr-namespace:CrossBrowser.Avalonia.Converters"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="CrossBrowser.Avalonia.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico">
+    <Window.Styles>
+        <StyleInclude Source="/Styles/MainWindow.xaml" />
+    </Window.Styles>
+    <Grid>
+        <TabControl Items="{Binding TabService.Tabs}"
+                    SelectedItem="{Binding TabService.SelectedTab}"
+                    SelectedIndex="{Binding TabService.SelectedIndex}">
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type viewModels:TabContentViewModel}">
+                    <views:TabContentView DataContext="{Binding }" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type viewModels:TabContentViewModel}">
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right"
+                                Command="{Binding RemoveTab}"
+                                Background="Transparent"
+                                Margin="5,0,0,0"
+                                Padding="5"
+                                Height="20"
+                                Width="20">
+                            <Image Source="{StaticResource XMark}" />
+                        </Button>
+                        <TextBlock x:Name="TitleTextBlock"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   TextTrimming="CharacterEllipsis">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{x:Static converters:CoalesceConverter.Instance}">
+                                    <Binding Path="Title" />
+                                    <Binding Path="BrowserAddress" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DockPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
+    </Grid>
+</Window>
