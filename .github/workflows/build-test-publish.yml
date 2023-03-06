@@ -134,7 +134,7 @@ jobs:
       
       # TODO: sign package before publishing
       - name: Publish Avalonia Windows
-        run: dotnet publish ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release
+        run: dotnet publish ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release  --self-contained -p:PublishSingleFile=true
         env:
           # TODO: support other RuntimeIdentifiers
           RuntimeIdentifier: win-x64
