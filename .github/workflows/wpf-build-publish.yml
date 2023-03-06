@@ -4,11 +4,17 @@ on:
   push:
     branches: [ main ]
     paths-ignore:
-      - ['**.md', 'CrossBrowser.Avalonia/**', 'CrossBrowser.Native/**', 'CrossBrowser.Test/**']
+      - '**.md'
+      - 'CrossBrowser.Avalonia/**'
+      - 'CrossBrowser.Native/**'
+      - 'CrossBrowser.Test/**'
   pull_request:
     branches: [ main ]
     paths-ignore:
-      - ['**.md', 'CrossBrowser.Avalonia/**', 'CrossBrowser.Native/**', 'CrossBrowser.Test/**']
+      - '**.md'
+      - 'CrossBrowser.Avalonia/**'
+      - 'CrossBrowser.Native/**'
+      - 'CrossBrowser.Test/**'
   workflow_run:
     workflows: [Tests]
     types:

@@ -4,11 +4,17 @@ on:
   push:
     branches: [ main ]
     paths-ignore:
-      - ['**.md', 'CrossBrowser.WPF/**', '**/CrossBrowser.Native.macOSX/**', 'CrossBrowser.Test/**']
+      - '**.md'
+      - 'CrossBrowser.WPF/**'
+      - '**/CrossBrowser.Native.macOSX/**'
+      - 'CrossBrowser.Test/**'
   pull_request:
     branches: [ main ]
     paths-ignore:
-      - ['**.md', 'CrossBrowser.WPF/**', '**/CrossBrowser.Native.macOSX/**', 'CrossBrowser.Test/**']
+      - '**.md'
+      - 'CrossBrowser.WPF/**'
+      - '**/CrossBrowser.Native.macOSX/**'
+      - 'CrossBrowser.Test/**'
   workflow_run:
     workflows: [Tests]
     types:

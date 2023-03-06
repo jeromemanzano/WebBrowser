@@ -4,11 +4,17 @@ on:
   push:
     branches: [ main ]
     paths-ignore:
-      -  ['**.md', 'CrossBrowser.Avalonia/**', 'CrossBrowser.Native/**', 'CrossBrowser.WPF/**']
+      - '**.md'
+      - 'CrossBrowser.Avalonia/**'
+      - 'CrossBrowser.Native/**'
+      - 'CrossBrowser.WPF/**'
   pull_request:
     branches: [ main ]
     paths-ignore:
-      -  ['**.md', 'CrossBrowser.Avalonia/**', 'CrossBrowser.Native/**', 'CrossBrowser.WPF/**']
+      - '**.md'
+      - 'CrossBrowser.Avalonia/**'
+      - 'CrossBrowser.Native/**'
+      - 'CrossBrowser.WPF/**'
 
 env:
   DOTNET_VERSION: '6.0.405'
