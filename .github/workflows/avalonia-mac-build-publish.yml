@@ -16,7 +16,8 @@ on:
       - '**/CrossBrowser.Native.Windows/**'
       - 'CrossBrowser.Test/**'
   workflow_run:
-    workflows: [Tests]
+    workflows: 
+      - Tests
     types:
       - completed
 
@@ -26,8 +27,6 @@ env:
 
 jobs:
   avalonia-mac-build:
-    needs: run-test
-    
     runs-on: macos-latest
 
     steps:

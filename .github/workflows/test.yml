@@ -19,6 +19,7 @@ on:
 env:
   DOTNET_VERSION: '6.0.405'
   TEST_RELEASE_CONFIGURATION: 'Test-Release'
+  TEST_PROJECT_PATH: WebBrowser.Test/WebBrowser.Test.csproj
 
 jobs:
   run-test:
