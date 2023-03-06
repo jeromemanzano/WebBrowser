@@ -6,6 +6,7 @@ using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
 using WebBrowser.Models;
+using WebBrowser.Native.Common.Utilities;
 using WebBrowser.ViewModels;
 
 namespace WebBrowser.Avalonia.Views;

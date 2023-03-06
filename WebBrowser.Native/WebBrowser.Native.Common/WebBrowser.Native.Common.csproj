@@ -8,4 +8,8 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="DynamicData" Version="7.12.8" />
+    </ItemGroup>
+
 </Project>

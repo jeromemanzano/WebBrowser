@@ -1,7 +1,7 @@
 using DynamicData;
 using DynamicData.Binding;
 
-namespace WebBrowser.Models;
+namespace WebBrowser.Native.Common.Utilities;
 
 public class Grouping<TKey, TObject> : ObservableCollectionExtended<TObject>, IGrouping<TKey, TObject>, IDisposable
 {
