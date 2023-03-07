@@ -1,0 +1,50 @@
+name: Avalonia Windows build and publish
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'CrossBrowser.WPF/**'
+      - '*/CrossBrowser.Native.macOSX/**'
+      - 'CrossBrowser.Test/**'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'CrossBrowser.WPF/**'
+      - '*/CrossBrowser.Native.macOSX/**'
+      - 'CrossBrowser.Test/**'
+
+env:
+  DOTNET_VERSION: '6.0.405'
+  AVALONIA_PROJECT_PATH: CrossBrowser.Avalonia/CrossBrowser.Avalonia.csproj
+
+jobs:    
+  avalonia-win-build-publish:
+    permissions:
+      contents: write
+
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install Avalonia Windows dependencies
+        run: dotnet restore ${{ env.AVALONIA_PROJECT_PATH}} -p:Configuration=Avalonia-Win-Release
+
+      - name: Build Avalonia Windows
+        run: dotnet build ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release --no-restore
+      
+      # TODO: sign package before publishing
+      - name: Publish Avalonia Windows
+        run: dotnet publish ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release
+        env:
+          # TODO: support other RuntimeIdentifiers
+          RuntimeIdentifier: win-x64  

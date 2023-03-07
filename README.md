@@ -1,23 +1,21 @@
-# WebBrowser [![build, test and publish](https://github.com/jeromemanzano/WebBrowser/actions/workflows/build-test-publish.yml/badge.svg?branch=main)](https://github.com/jeromemanzano/WebBrowser/actions/workflows/build-test-publish.yml) [![codecov](https://codecov.io/gh/jeromemanzano/WebBrowser/branch/main/graph/badge.svg?token=AZIZO82XAF)](https://codecov.io/gh/jeromemanzano/WebBrowser)
-This is a demo web browser that runs on Windows
-![webbrowser](https://user-images.githubusercontent.com/23254953/213837005-471c37b8-e452-43e9-bfeb-10ad7022c3f5.gif)
+# CrossBrowser https://github.com/jeromemanzano/WebBrowser/actions/workflows/build-test-publish.yml/badge.svg?https://img.shields.io/github/actions/workflow/status/jeromemanzano/WebBrowser/test.yml [![codecov](https://codecov.io/gh/jeromemanzano/WebBrowser/branch/main/graph/badge.svg?token=AZIZO82XAF)](https://codecov.io/gh/jeromemanzano/WebBrowser)
+This is a demo web browser that can run on Windows and MacOS. You may go to each UI framework for instructions on how to run, debug or install the application.
 
-## Development setup
-To run/debug this app on you need to have the following:
-1. A device with Windows installed. You may find the system requirements [here](https://learn.microsoft.com/en-us/visualstudio/releases/2022/system-requirements).
-2. Your preferred .Net IDE Installed. You can use [Visual Studio 2022](https://visualstudio.microsoft.com/) or [JetBrains Rider](https://www.jetbrains.com/rider/).
-3. [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) Installed.
+|                                                                             | Windows Build                                                                                                              | MacOS Build |
+|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|-------------|
+| [WPF](https://github.com/jeromemanzano/WebBrowser/tree/main/WebBrowser.WPF) | https://img.shields.io/github/actions/workflow/status/jeromemanzano/WebBrowser/wpf-build-publish.yml/badge.svg?branch=main | N/A         |
+| [Avalonia](https://github.com/jeromemanzano/WebBrowser/tree/main/WebBrowser.Avalonia)                                                                | https://img.shields.io/github/actions/workflow/status/jeromemanzano/WebBrowser/avalonia-win-build-publish.yml              | https://img.shields.io/github/actions/workflow/status/jeromemanzano/WebBrowser/avalonia-mac-build.yml        | Test              | TBA             |
 
-## Installing the app
-| :exclamation:  This is not signed so Windows will prompt you when you try to run it.   |
-|-----------------------------------------|
 
-If you would like to proceed, you can download the latest `x64` package [here](https://github.com/jeromemanzano/WebBrowser/releases/latest). This is a self-contained single file Windows application so you don't need to install anything else. After downloading `WebBrowser.WPF.exe` file, click it to run. It will take a while on first attempt but subsequent run should be faster.
+
 
 ## Nuget Packages
 - [ReactiveUI](https://www.nuget.org/packages/ReactiveUI)
+- [Avalonia] (https://www.nuget.org/packages/Avalonia/)
+- [DynamicData](https://www.nuget.org/packages/DynamicData/)
 - [CefSharp.Wpf](https://www.nuget.org/packages/CefSharp.Wpf)
 - [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json)
 - [Akavache](https://www.nuget.org/packages/akavache)
 - [NUnit](https://www.nuget.org/packages/NUnit)
 - [Moq](https://www.nuget.org/packages/Moq)
+- [Microsoft.Web.WebView2](https://www.nuget.org/packages/Microsoft.Web.WebView2)

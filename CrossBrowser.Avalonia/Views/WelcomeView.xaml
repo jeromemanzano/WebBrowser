@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CrossBrowser.Avalonia.Views.WelcomeView">
+    <TextBlock Text="Welcome to my demo browser using Avalonia UI! I'm excited to have you try it out. Please keep in mind that this is a work in progress. I'll be adding new features so please watch out for more updates in the future!"
+               HorizontalAlignment="Center"
+               TextWrapping="Wrap" 
+               Padding="40"
+               FontSize="16"/>
+</UserControl>
