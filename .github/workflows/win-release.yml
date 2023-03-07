@@ -1,27 +1,23 @@
-name: Avalonia Windows build and publish
+name: Windows Release
 
 on:
   push:
     branches: [ main ]
     paths-ignore:
       - '**.md'
-      - 'CrossBrowser.WPF/**'
-      - '*/CrossBrowser.Native.macOSX/**'
       - 'CrossBrowser.Test/**'
   pull_request:
     branches: [ main ]
     paths-ignore:
       - '**.md'
-      - 'CrossBrowser.WPF/**'
-      - '*/CrossBrowser.Native.macOSX/**'
       - 'CrossBrowser.Test/**'
 
 env:
   DOTNET_VERSION: '6.0.405'
-  AVALONIA_PROJECT_PATH: CrossBrowser.Avalonia/CrossBrowser.Avalonia.csproj
+  WPF_PROJECT_PATH: CrossBrowser.WPF/CrossBrowser.WPF.csproj
 
-jobs:    
-  avalonia-win-build-publish:
+jobs:
+  wpf-build-publish:
     permissions:
       contents: write
 
@@ -36,6 +32,19 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: Install WPF dependencies
+        run: dotnet restore ${{ env.WPF_PROJECT_PATH}}
+
+      - name: Build WPF
+        run: dotnet build ${{ env.WPF_PROJECT_PATH}} -c Release --no-restore
+      
+      # TODO: sign package before publishing
+      - name: Publish WPF
+        run: dotnet publish ${{ env.WPF_PROJECT_PATH}} -c Release --self-contained -p:PublishSingleFile=true
+        env:
+          # TODO: support other RuntimeIdentifiers
+          RuntimeIdentifier: win-x64
+          
       - name: Install Avalonia Windows dependencies
         run: dotnet restore ${{ env.AVALONIA_PROJECT_PATH}} -p:Configuration=Avalonia-Win-Release
 
@@ -47,9 +56,13 @@ jobs:
         run: dotnet publish ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release
         env:
           # TODO: support other RuntimeIdentifiers
-          RuntimeIdentifier: win-x64  
-          
-      - name: Upload installer
-        uses: actions/upload-artifact@v3
+          RuntimeIdentifier: win-x64
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
-          path: CrossBrowser.Avalonia/bin/Avalonia-Win-Release/win-x64/publish/CrossBrowser.Avalonia.exe
+          tag: v0.0.${{ github.run_number }}
+          prerelease : github.ref_name != 'main'
+          makeLatest: github.ref_name == 'main'
+          release_name: ${{ ( github.event_name == 'pull_request' && 'Pre-release' ) || 'Release' }} v0.0.${{ github.run_number }}
+          artifacts: "**.exe"

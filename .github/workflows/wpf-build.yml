@@ -1,0 +1,37 @@
+name: WPF build
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'CrossBrowser.Test/**'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'CrossBrowser.Test/**'
+
+env:
+  DOTNET_VERSION: '6.0.405'
+  WPF_PROJECT_PATH: CrossBrowser.WPF/CrossBrowser.WPF.csproj
+  AVALONIA_PROJECT_PATH: CrossBrowser.Avalonia/CrossBrowser.Avalonia.csproj
+
+jobs:
+  wpf-build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Install WPF dependencies
+      run: dotnet restore ${{ env.WPF_PROJECT_PATH}}
+
+    - name: Build WPF
+      run: dotnet build ${{ env.WPF_PROJECT_PATH}} -c Release --no-restore

@@ -1,0 +1,36 @@
+name: Avalonia Windows build
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'CrossBrowser.Test/**'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'CrossBrowser.Test/**'
+
+env:
+  DOTNET_VERSION: '6.0.405'
+  AVALONIA_PROJECT_PATH: CrossBrowser.Avalonia/CrossBrowser.Avalonia.csproj
+
+jobs:    
+  avalonia-win-build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install Avalonia Windows dependencies
+        run: dotnet restore ${{ env.AVALONIA_PROJECT_PATH}} -p:Configuration=Avalonia-Win-Release
+
+      - name: Build Avalonia Windows
+        run: dotnet build ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release --no-restore
