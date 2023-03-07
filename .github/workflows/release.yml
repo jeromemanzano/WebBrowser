@@ -1,10 +1,10 @@
 name: Create Release
 
-#on:
-#  workflow_run:
-#    workflows: [ Avalonia Windows build and publish, WPF build and publish ]
-#    types: 
-#      - completed
+on:
+  workflow_run:
+    workflows: [ Avalonia Windows build and publish, WPF build and publish ]
+    types: 
+      - completed
 
 jobs:    
   on-success:
