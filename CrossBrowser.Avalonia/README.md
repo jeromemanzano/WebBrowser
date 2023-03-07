@@ -6,7 +6,8 @@ To run/debug this app on your Windows device you need to have the following:
 1. A device with Windows installed. You may find the system requirements [here](https://learn.microsoft.com/en-us/visualstudio/releases/2022/system-requirements).
 2. Your preferred .Net IDE Installed. You can use [Visual Studio 2022](https://visualstudio.microsoft.com/) or [JetBrains Rider](https://www.jetbrains.com/rider/).
 3. [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) Installed.
-4. Change build configuration to `Avalonia-Win-Debug` or `Avalonia-Win-Release`
+4. Microsoft Edge WebView2. You can download it [here](https://developer.microsoft.com/en-us/microsoft-edge/webview2/)
+5. Change build configuration to `Avalonia-Win-Debug` or `Avalonia-Win-Release`
 
 
 ## Installing the Windows app
