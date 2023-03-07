@@ -3,11 +3,13 @@ name: Create Release
 on:
   workflow_run:
     workflows: [ Avalonia Windows build and publish, WPF build and publish ]
-    types: [completed]
+    types: 
+      - completed
 
 jobs:    
   on-success:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: write
     steps:
@@ -19,5 +21,6 @@ jobs:
         with:
           tag: v0.0.${{ github.run_number }}
           prerelease : github.ref_name != 'main'
+          makeLatest: github.ref_name == 'main'
           release_name: ${{ ( github.event_name == 'pull_request' && 'Pre-release' ) || 'Release' }} v0.0.${{ github.run_number }}
           artifacts: "CrossBrowser.Avalonia/bin/Avalonia-Win-Release/win-x64/publish/*.exe,CrossBrowser.WPF/bin/Release/net6.0-windows/win-x64/publish/*.exe"
