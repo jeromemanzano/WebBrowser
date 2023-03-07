@@ -51,4 +51,4 @@ jobs:
     - name: Upload installer
       uses: actions/upload-artifact@v3
       with:
-        path: CrossBrowser.WPF/bin/Release/net6.0-windows/win-x64/publish/*.exe
+        path: CrossBrowser.WPF/bin/Release/net6.0-windows/win-x64/publish/CrossBrowser.WPF.exe

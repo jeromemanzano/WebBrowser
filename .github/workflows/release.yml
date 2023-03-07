@@ -1,21 +1,35 @@
 name: Create Release
 
-on:
-  workflow_run:
-    workflows: [ Avalonia Windows build and publish, WPF build and publish ]
-    types: 
-      - completed
+#on:
+#  workflow_run:
+#    workflows: [ Avalonia Windows build and publish, WPF build and publish ]
+#    types: 
+#      - completed
 
 jobs:    
   on-success:
     runs-on: ubuntu-latest
+    
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
     permissions:
       contents: write
+      
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
+      - name: Download WPF artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: wpf-build-publish.yml
+          
+      - name: Download Avalonia windows artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: avalonia-win-build-publish.yml
+          
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
