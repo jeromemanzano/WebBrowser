@@ -54,18 +54,23 @@ jobs:
           # TODO: support other RuntimeIdentifiers
           RuntimeIdentifier: win-x64
           
-      - name: Get next version
-        uses: reecetech/version-increment@2022.10.3
-        id: version
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: 'Get next minor version'
+        id: semvers
+        uses: "WyriHaximus/github-action-next-semvers@v1"
         with:
-          scheme: semver
-          increment: minor
+          version: ${{ steps.previoustag.outputs.tag }}
           
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.version.outputs.v-version }}
+          tag: ${{ steps.semvers.outputs.v_minor }}
           prerelease : false
           makeLatest: true
-          name: Release ${{ steps.version.outputs.v-version }}
+          name: Release ${{ steps.semvers.outputs.v_minor }}
           artifacts: "**/CrossBrowser.Avalonia.exe,**/CrossBrowser.WPF.exe"
