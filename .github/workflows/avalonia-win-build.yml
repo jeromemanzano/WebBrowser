@@ -13,7 +13,7 @@ on:
       - 'CrossBrowser.Test/**'
 
 env:
-  DOTNET_VERSION: '6.0.405'
+  DOTNET_VERSION: '6.0.x'
   AVALONIA_PROJECT_PATH: CrossBrowser.Avalonia/CrossBrowser.Avalonia.csproj
 
 jobs:    

@@ -1,8 +1,7 @@
-name: Windows Release
+name: Windows Pre-release
 
 on:
-  push:
-    branches: [ main ]
+  pull_request:
     paths-ignore:
       - '**.md'
       - 'CrossBrowser.Test/**'
@@ -13,7 +12,7 @@ env:
   AVALONIA_PROJECT_PATH: CrossBrowser.Avalonia/CrossBrowser.Avalonia.csproj
 
 jobs:
-  windows-release:
+  windows-pre-release:
     permissions:
       contents: write
 
@@ -56,15 +55,13 @@ jobs:
           
       - id: tag
         uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          excludes: prerelease, draft
-          
+
       - name: Bump release version
         id: bump_version
         uses: christian-draeger/increment-semantic-version@1.1.0
         with:
           current-version: ${{ steps.tag.outputs.release }}
-          version-fragment: 'feature'
+          version-fragment: 'beta'
 
       - name: Create Release
         uses: ncipollo/release-action@v1
@@ -72,5 +69,5 @@ jobs:
           tag: ${{ steps.bump_version.outputs.next-version }}
           prerelease : false
           makeLatest: true
-          name: Release ${{ steps.bump_version.outputs.next-version }}
+          name: Pre-release ${{ steps.bump_version.outputs.next-version }}
           artifacts: "**/CrossBrowser.Avalonia.exe,**/CrossBrowser.WPF.exe"

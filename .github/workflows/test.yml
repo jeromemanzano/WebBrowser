@@ -16,7 +16,7 @@ on:
       - '!**.md'
       - '**.yml'
 env:
-  DOTNET_VERSION: '6.0.405'
+  DOTNET_VERSION: '6.0.x'
   TEST_RELEASE_CONFIGURATION: 'Test-Release'
   TEST_PROJECT_PATH: CrossBrowser.Test/CrossBrowser.Test.csproj
 
