@@ -5,6 +5,8 @@ on:
     workflows: [ Avalonia Windows build and publish, WPF build and publish ]
     types: 
       - completed
+    branches:
+      - '**'
 
 jobs:    
   on-success:
