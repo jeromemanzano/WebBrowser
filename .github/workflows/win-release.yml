@@ -65,4 +65,4 @@ jobs:
           prerelease : github.ref_name != 'main'
           makeLatest: github.ref_name == 'main'
           release_name: ${{ ( github.event_name == 'pull_request' && 'Pre-release' ) || 'Release' }} v0.0.${{ github.run_number }}
-          artifacts: "**.exe"
+          artifacts: "**/CrossBrowser.Avalonia.exe,**/CrossBrowser.WPF.exe"
