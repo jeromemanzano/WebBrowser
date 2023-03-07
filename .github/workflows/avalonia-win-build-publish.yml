@@ -6,20 +6,15 @@ on:
     paths-ignore:
       - '**.md'
       - 'CrossBrowser.WPF/**'
-      - '**/CrossBrowser.Native.macOSX/**'
+      - '*/CrossBrowser.Native.macOSX/**'
       - 'CrossBrowser.Test/**'
   pull_request:
     branches: [ main ]
     paths-ignore:
       - '**.md'
       - 'CrossBrowser.WPF/**'
-      - '**/CrossBrowser.Native.macOSX/**'
+      - '*/CrossBrowser.Native.macOSX/**'
       - 'CrossBrowser.Test/**'
-  workflow_run:
-    workflows: 
-      - Tests
-    types:
-      - completed
 
 env:
   DOTNET_VERSION: '6.0.405'
@@ -52,20 +47,4 @@ jobs:
         run: dotnet publish ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release
         env:
           # TODO: support other RuntimeIdentifiers
-          RuntimeIdentifier: win-x64
-
-      - name: Create Avalonia Windows Release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: avalonia-win-${{ github.run_number }}
-          release_name: ${{ ( github.event_name == 'pull_request' && 'Ava-Win-PR-Build' ) || 'Ava-Win-Release' }} ${{ github.run_number }}
-
-      - name: Upload Avalonia Windows Release (win-x64)
-        uses: csexton/release-asset-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: CrossBrowser.Avalonia/bin/Avalonia-Win-Release/win-x64/publish/*.exe
-          release-url: ${{ steps.create_release.outputs.upload_url }}    
+          RuntimeIdentifier: win-x64  

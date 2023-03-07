@@ -15,11 +15,6 @@ on:
       - 'CrossBrowser.Avalonia/**'
       - 'CrossBrowser.Native/**'
       - 'CrossBrowser.Test/**'
-  workflow_run:
-    workflows: 
-      -Tests
-    types:
-      - completed
 
 env:
   DOTNET_VERSION: '6.0.405'
@@ -53,19 +48,3 @@ jobs:
       env:
         # TODO: support other RuntimeIdentifiers
         RuntimeIdentifier: win-x64
-
-    - name: Create WPF Release
-      uses: actions/create-release@v1
-      id: create_release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: wpf-${{ github.run_number }}
-        release_name: ${{ ( github.event_name == 'pull_request' && 'WPF-PR-Build' ) || 'WPF-Release' }} ${{ github.run_number }}
-
-    - name: Upload WPF Release (win-x64)
-      uses: csexton/release-asset-action@v2
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        pattern: CrossBrowser.WPF/bin/Release/net6.0-windows/win-x64/publish/*.exe
-        release-url: ${{ steps.create_release.outputs.upload_url }}

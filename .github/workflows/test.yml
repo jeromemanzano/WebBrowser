@@ -3,18 +3,16 @@ name: Tests
 on:
   push:
     branches: [ main ]
-    paths-ignore:
-      - '**.md'
-      - 'CrossBrowser.Avalonia/**'
-      - 'CrossBrowser.Native/**'
-      - 'CrossBrowser.WPF/**'
+    paths:
+      - 'CrossBrowser.Test/**'
+      - 'CrossBrowser/**'
+      - '!**.md'
   pull_request:
     branches: [ main ]
-    paths-ignore:
-      - '**.md'
-      - 'CrossBrowser.Avalonia/**'
-      - 'CrossBrowser.Native/**'
-      - 'CrossBrowser.WPF/**'
+    paths:
+      - 'CrossBrowser.Test/**'
+      - 'CrossBrowser/**'
+      - '!**.md'
 
 env:
   DOTNET_VERSION: '6.0.405'
