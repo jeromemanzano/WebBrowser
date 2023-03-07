@@ -69,5 +69,5 @@ jobs:
           tag: ${{ steps.version.outputs.version }}
           prerelease : false
           makeLatest: true
-          name: Release ${{ steps.version.outputs.version }}
+          name: ${{ steps.version.outputs.version }}
           artifacts: "**/CrossBrowser.Avalonia.exe,**/CrossBrowser.WPF.exe"
