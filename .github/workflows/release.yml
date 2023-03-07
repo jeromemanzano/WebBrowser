@@ -16,15 +16,16 @@ jobs:
       contents: write
       
     steps:
+      - name: Wait workflows
+        uses: ahmadnassri/action-workflow-run-wait@v1
+      
       - name: Download WPF artifact
-        id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wpf-build-publish.yml
           
       - name: Download Avalonia windows artifact
-        id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
