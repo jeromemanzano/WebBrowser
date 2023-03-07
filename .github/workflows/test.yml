@@ -7,13 +7,14 @@ on:
       - 'CrossBrowser.Test/**'
       - 'CrossBrowser/**'
       - '!**.md'
+      - '**.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'CrossBrowser.Test/**'
       - 'CrossBrowser/**'
       - '!**.md'
-
+      - '**.yml'
 env:
   DOTNET_VERSION: '6.0.405'
   TEST_RELEASE_CONFIGURATION: 'Test-Release'

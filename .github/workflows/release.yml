@@ -16,6 +16,9 @@ jobs:
       contents: write
       
     steps:
+      - name: Wait workflows
+        uses: ahmadnassri/action-workflow-run-wait@v1
+        
       - name: Download WPF artifact
         uses: dawidd6/action-download-artifact@v2
         with:

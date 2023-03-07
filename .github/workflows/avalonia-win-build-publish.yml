@@ -48,3 +48,8 @@ jobs:
         env:
           # TODO: support other RuntimeIdentifiers
           RuntimeIdentifier: win-x64  
+          
+      - name: Upload installer
+        uses: actions/upload-artifact@v3
+        with:
+          path: CrossBrowser.Avalonia/bin/Avalonia-Win-Release/win-x64/publish/CrossBrowser.Avalonia.exe
