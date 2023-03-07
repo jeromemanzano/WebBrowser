@@ -23,36 +23,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Install WPF dependencies
-        run: dotnet restore ${{ env.WPF_PROJECT_PATH}}
-
-      - name: Build WPF
-        run: dotnet build ${{ env.WPF_PROJECT_PATH}} -c Release --no-restore
-      
-      # TODO: sign package before publishing
-      - name: Publish WPF
-        run: dotnet publish ${{ env.WPF_PROJECT_PATH}} -c Release --self-contained -p:PublishSingleFile=true
-        env:
-          # TODO: support other RuntimeIdentifiers
-          RuntimeIdentifier: win-x64
-          
-      - name: Install Avalonia Windows dependencies
-        run: dotnet restore ${{ env.AVALONIA_PROJECT_PATH}} -p:Configuration=Avalonia-Win-Release
-
-      - name: Build Avalonia Windows
-        run: dotnet build ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release --no-restore
-      
-      # TODO: sign package before publishing
-      - name: Publish Avalonia Windows
-        run: dotnet publish ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release
-        env:
-          # TODO: support other RuntimeIdentifiers
-          RuntimeIdentifier: win-x64
+#      - name: Setup .NET
+#        uses: actions/setup-dotnet@v3
+#        with:
+#          dotnet-version: ${{ env.DOTNET_VERSION }}
+#
+#      - name: Install WPF dependencies
+#        run: dotnet restore ${{ env.WPF_PROJECT_PATH}}
+#
+#      - name: Build WPF
+#        run: dotnet build ${{ env.WPF_PROJECT_PATH}} -c Release --no-restore
+#      
+#      # TODO: sign package before publishing
+#      - name: Publish WPF
+#        run: dotnet publish ${{ env.WPF_PROJECT_PATH}} -c Release --self-contained -p:PublishSingleFile=true
+#        env:
+#          # TODO: support other RuntimeIdentifiers
+#          RuntimeIdentifier: win-x64
+#          
+#      - name: Install Avalonia Windows dependencies
+#        run: dotnet restore ${{ env.AVALONIA_PROJECT_PATH}} -p:Configuration=Avalonia-Win-Release
+#
+#      - name: Build Avalonia Windows
+#        run: dotnet build ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release --no-restore
+#      
+#      # TODO: sign package before publishing
+#      - name: Publish Avalonia Windows
+#        run: dotnet publish ${{ env.AVALONIA_PROJECT_PATH}} -c Avalonia-Win-Release
+#        env:
+#          # TODO: support other RuntimeIdentifiers
+#          RuntimeIdentifier: win-x64
           
       - name: 'Update version'
         id: version
